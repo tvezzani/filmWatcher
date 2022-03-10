@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const moviesRoutes = require('./routes/movies');
+const swaggerRoutes = require('./routes/swagger');
 const port = process.env.PORT || 8080;
 
 const app = express();
@@ -20,6 +21,7 @@ app
 
 
 app.use('/movies', moviesRoutes);
+app.use('/', swaggerRoutes);
 
 const db = require('./models');
 

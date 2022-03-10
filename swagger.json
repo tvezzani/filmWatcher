@@ -1,0 +1,214 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Watcher API Documentation\n",
+    "version": "1.0.0",
+    "title": "Watcher"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "visitor",
+      "description": "Routes that are accessible if a user is not signed in"
+    }, 
+    {
+      "name": "user",
+      "description": "Routes that are accessible after a user signs in"
+    }, 
+    {
+      "name": "admin",
+      "description": "Routes that are only accessible for an admin"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "username and password (username needs to be unique)",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCredentials"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successfully created a user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "403": {
+            "description": "Invalid Credentials",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "Get Library",
+        "description": "Gets the entire library of movies. This will be the home page of the application",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "successfully fetched library",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Movie"
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/movie": {
+      "get": {
+        "tags": [
+          "visitor"
+        ],
+        "summary": "Get Movie Details",
+        "description": "Gets the details for a movie based off the provided ID",
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "successfully fetched library",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Movie"
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to process request",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserCredentials": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
+        },
+        "watchList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Movie"
+          }
+        },
+        "favList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Movie"
+          }
+        },
+        "suggestionsSent": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Movie"
+          }
+        }
+      }
+    },
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "yearPublished": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "string"
+        },
+        "genre": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
