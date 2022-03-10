@@ -12,10 +12,10 @@ exports.getMovies = (req, res, next) => {
         movies: movies,
       });
     })
-    .catch((error) => {
+    .catch((err) => {
       res.status(500).json({
         message: "An error occurred",
-        error: error,
+        error: err,
       });
     });
 };
