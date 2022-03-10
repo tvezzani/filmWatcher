@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Interstallar",
+    "yearPublished": "2014",
+    "rating": "PG",
+    "minutes": "130 min",
+    "genre": "Sci-Fi",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg"
+  },
+  {
+    "title": "Fast & Furious 9",
+    "yearPublished": "2020",
+    "rating": "PG-13",
+    "minutes": "120 min",
+    "genre": "Action",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BOGI1NmU5NTEtYTliNC00ZjgzLTk3MzQtNTljZWY3YWJkZDhiXkEyXkFqcGdeQWFybm8@._V1_.jpg"
+  },
+  {
+    "title": "What Dreams May Come",
+    "yearPublished": "1998",
+    "rating": "PG-13",
+    "minutes": "90 min",
+    "genre": "Drama",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BNTg5ZWRjNTctNmMyMi00NTJmLTg3YjktMzJlMDRiYWQ0MjMzL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg"
+  }
+]
