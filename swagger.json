@@ -26,10 +26,10 @@
     "http"
   ],
   "paths": {
-    "/user": {
+    "/create-user": {
       "post": {
         "tags": [
-          "user"
+          "user", "admin"
         ],
         "summary": "Create user",
         "description": "username and password (username needs to be unique)",
@@ -171,7 +171,7 @@
     "/add-to-watchlist/{movieId}": {
       "post": {
         "tags": [
-          "user"
+          "user", "admin"
         ],
         "summary": "Add movie to watchlist",
         "description": "Adds a certain movie that currently exists to a user's watchlist",
@@ -212,7 +212,7 @@
     "/remove-from-watchlist/{movieId}": {
       "put": {
         "tags": [
-          "user"
+          "user", "admin"
         ],
         "summary": "Remove movie from watch list",
         "description": "Removes a movie id from the user's watchlist",
@@ -251,9 +251,9 @@
       }
     },
     "/clear-watchlist": {
-      "delete": {
+      "put": {
         "tags": [
-          "user"
+          "user", "admin"
         ],
         "summary": "Clear Watchlist",
         "description": "Allows a user to clear out their entire watchlist",
@@ -280,10 +280,10 @@
         }
       }
     },
-    "/login/": {
+    "/login": {
       "post": {
         "tags": [
-          "visitor"
+          "visitor", "admin"
         ],
         "summary": "Log In",
         "description": "Log in with credentials",
@@ -321,10 +321,10 @@
         }
       }
     },
-    "/signup/": {
+    "/signup": {
       "post": {
         "tags": [
-          "visitor"
+          "visitor", "admin"
         ],
         "summary": "Sign Up",
         "description": "Sign up with a new account",
@@ -567,7 +567,7 @@
         }
       }
     },
-    "/suggestions/": {
+    "/suggestions": {
       "get": {
         "tags": [
           "admin"
@@ -597,7 +597,6 @@
         }
       }
     }
-
   },
   "definitions": {
     "UserCredentials": {
