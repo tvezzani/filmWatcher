@@ -368,37 +368,40 @@
           "admin", "user"
         ],
         "summary": "Add movie",
-        "description": "Add a new movie to the library if the user is admin, In case the user is not admin the movie is going to movie suggestion",
-        "operationId": "addNewMovie",
+        "description": "Admin mode: adds a movie directly to the library without going through the suggestion process. User mode: creates a new movie suggestion",
+        "operationId": "addMovie",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
             "in": "body",
-            "name": "body",
-            "description": "Create movie",
+            "name": "userCredentials",
+            "description": "Credentials to determine if user is an admin",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Movie"
+              "$ref": "#/definitions/UserCredentials"
+            }
+          },
+          {
+            "in": "body",
+            "name": "movie",
+            "description": "The expected movie object to create a new movie or suggestion.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MovieInput"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
-              }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
+            "description": "Admin mode: the ID of the newly created movie. User mode: the ID of the newly created movie suggestion",
             "schema": {
               "type": "string"
             }
+          },
+          "500": {
+            "description": "Failed to process request"
           }
         }
       }
@@ -416,30 +419,19 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
+            "in": "path",
+            "name": "movieId",
+            "description": "The movie ID",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
+            "type": "string"
           }
         ],
         "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
-              }
-            }
+          "200": {
+            "description": "Successfully deleted movie"
           },
           "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
+            "description": "Failed to process request"
           }
         }
       }
@@ -457,30 +449,31 @@
         ],
         "parameters": [
           {
+            "in": "path",
+            "name": "movieId",
+            "description": "The movie ID",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
-            "name": "body",
-            "description": "Create user object",
+            "name": "updatedMovie",
+            "description": "The modified movie object.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserCredentials"
+              "$ref": "#/definitions/MovieInput"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
-              }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
+            "description": "ID of the updated movie",
             "schema": {
               "type": "string"
             }
+          },
+          "500": {
+            "description": "Failed to process request"
           }
         }
       }
@@ -607,6 +600,9 @@
         },
         "password": {
           "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
         }
       }
     },
@@ -654,6 +650,32 @@
         "id": {
           "type": "string"
         },
+        "title": {
+          "type": "string"
+        },
+        "yearPublished": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "string"
+        },
+        "genre": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "MovieInput": {
+      "type": "object",
+      "properties": {
         "title": {
           "type": "string"
         },
