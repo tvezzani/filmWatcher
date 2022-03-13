@@ -485,40 +485,37 @@
         }
       }
     },
-    "/approve-movie/{suggestionId}": {
+    "/approve-movie/{movieId}": {
       "post": {
         "tags": [
           "admin"
         ],
         "summary": "Approve new movie",
-        "description": "Allows an admin to approve a movie suggestion",
+        "description": "Allows an admin to approve a movie suggestion, set the status field of the movie(found by Id) as approved",
         "operationId": "approveSuggestion",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
+            "in": "path",
+            "name": "movieId",
+            "description": "Movie id to be approved",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserCredentials"
+              "$ref": "#/definitions/Movie"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "successfully fetched library",
+            "description": "Successfully added movie to the library",
             "schema": {
-              "type": "array",
-              "items": {
                 "$ref": "#/definitions/Movie"
-              }
             }
           },
-          "500": {
-            "description": "Failed to process request",
+          "404": {
+            "description": "Movie not found",
             "schema": {
               "type": "string"
             }
@@ -526,43 +523,31 @@
         }
       }
     },
-    "/deny-movie/{suggestionId}": {
-      "post": {
+    "/deny-movie/{movieId}": {
+      "delete": {
         "tags": [
           "admin"
         ],
-        "summary": "Deny Movie Suggestion",
-        "description": "Marks a suggestion as denied by suggestion id",
+        "summary": "Denies Movie Suggestion",
+        "description": "Delete movie(found by Id) from the database.",
         "operationId": "denySuggestionById",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
+            "in": "path",
+            "name": "movieId",
+            "description": "Movie id to be deleted",
+            "required": true
           }
         ],
         "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
-              }
-            }
+          "200": {
+            "description": "Movie successfully deleted from database"
           },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
+          "404": {
+            "description": "Movie not found"
           }
         }
       }
