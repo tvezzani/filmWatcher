@@ -1,26 +1,25 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "description": "Watcher API Documentation\n",
-    "version": "1.0.0",
-    "title": "Watcher"
-  },
-  "host": "localhost:8080",
-  "basePath": "/",
-  "tags": [
-    {
-      "name": "visitor",
-      "description": "Routes that are accessible if a user is not signed in"
-    }, 
-    {
-      "name": "user",
-      "description": "Routes that are accessible after a user signs in"
-    }, 
-    {
-      "name": "admin",
-      "description": "Routes that are only accessible for an admin"
-    }
-  ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Watcher API Documentation\n",
+        "version": "1.0.0",
+        "title": "Watcher"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "tags": [{
+            "name": "visitor",
+            "description": "Routes that are accessible if a user is not signed in"
+        },
+        {
+            "name": "user",
+            "description": "Routes that are accessible after a user signs in"
+        },
+        {
+            "name": "admin",
+            "description": "Routes that are only accessible for an admin"
+        }
+    ],
   "schemes": [
     "https",
     "http"
