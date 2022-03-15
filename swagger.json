@@ -1,1117 +1,677 @@
+
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Watcher API Documentation\n",
-        "version": "1.0.0",
-        "title": "Watcher"
-    },
-    "host": "localhost:8080",
-    "basePath": "/",
-    "tags": [{
-            "name": "visitor",
-            "description": "Routes that are accessible if a user is not signed in"
-        },
-        {
-            "name": "user",
-            "description": "Routes that are accessible after a user signs in"
-        },
-        {
-            "name": "admin",
-            "description": "Routes that are only accessible for an admin"
-        }
-    ],
+  "swagger": "2.0",
+  "info": {
+      "description": "Watcher API Documentation\n",
+      "version": "1.0.0",
+      "title": "Watcher"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [{
+          "name": "visitor",
+          "description": "Routes that are accessible if a user is not signed in"
+      },
+      {
+          "name": "user",
+          "description": "Routes that are accessible after a user signs in"
+      },
+      {
+          "name": "admin",
+          "description": "Routes that are only accessible for an admin"
+      }
+  ],
   "schemes": [
-    "https",
-    "http"
+      "https",
+      "http"
   ],
   "paths": {
-    "/create-user": {
-      "post": {
-        "tags": [
-          "user", "admin"
-        ],
-        "summary": "Create user",
-        "description": "username and password (username needs to be unique)",
-        "operationId": "createUser",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully created a user",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "403": {
-            "description": "Invalid Credentials",
-            "schema": {
-              "type": "string"
-            }
-        },
-        "/watchlist": {
-            "get": {
-                "tags": [
-                    "user", "admin"
-                ],
-                "summary": "Get User Watchlist",
-                "description": "Returns a list of ids of movies in the current users watchlist",
-                "operationId": "getWatchList",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched watchlist",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "_id": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/add-to-watchlist/{movieId}": {
-            "post": {
-                "tags": [
-                    "user", "admin"
-                ],
-                "summary": "Add movie to watchlist",
-                "description": "Adds a certain movie that currently exists to a user's watchlist",
-                "operationId": "addToWatchlist",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "movieId",
-                    "description": "Adds a movie to watch list",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/UserCredentials"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/remove-from-watchlist/{movieId}": {
-            "put": {
-                "tags": [
-                    "user", "admin"
-                ],
-                "summary": "Remove movie from watch list",
-                "description": "Removes a movie id from the user's watchlist",
-                "operationId": "removeFromWatchlist",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "movieId",
-                    "description": "remove a certain movie from watchList array",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/Movie"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/clear-watchlist": {
-            "put": {
-                "tags": [
-                    "user", "admin"
-                ],
-                "summary": "Clear Watchlist",
-                "description": "Allows a user to clear out their entire watchlist",
-                "operationId": "clearWatchlist",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/login": {
-            "post": {
-                "tags": [
-                    "visitor", "admin"
-                ],
-                "summary": "Log In",
-                "description": "Log in with credentials",
-                "operationId": "logIn",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "body",
-                    "name": "body",
-                    "description": "Create user object",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/UserCredentials"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/signup": {
-            "post": {
-                "tags": [
-                    "visitor", "admin"
-                ],
-                "summary": "Sign Up",
-                "description": "Sign up with a new account",
-                "operationId": "signUp",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "body",
-                    "name": "body",
-                    "description": "Create user object",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/UserCredentials"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/add-movie": {
-            "post": {
-                "tags": [
-                    "admin", "user"
-                ],
-                "summary": "Add movie",
-                "description": "Admin mode: adds a movie directly to the library without going through the suggestion process. User mode: creates a new movie suggestion",
-                "operationId": "addMovie",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                        "in": "body",
-                        "name": "userCredentials",
-                        "description": "Credentials to determine if user is an admin",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UserCredentials"
-                        }
-                    },
-                    {
-                        "in": "body",
-                        "name": "movie",
-                        "description": "The expected movie object to create a new movie or suggestion.",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MovieInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Admin mode: the ID of the newly created movie. User mode: the ID of the newly created movie suggestion",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request"
-                    }
-                }
-            }
-        },
-        "/delete-movie/{movieId}": {
-            "delete": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Delete Movie",
-                "description": "Deletes a movie from the library by it's Id",
-                "operationId": "deleteMovieById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "movieId",
-                    "description": "The movie ID",
-                    "required": true,
-                    "type": "string"
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Successfully deleted movie"
-                    },
-                    "500": {
-                        "description": "Failed to process request"
-                    }
-                }
-            }
-        },
-        "/update-movie/{movieId}": {
-            "put": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Update Movie",
-                "description": "Updates a movie by movie Id",
-                "operationId": "updateMovieById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                        "in": "path",
-                        "name": "movieId",
-                        "description": "The movie ID",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "updatedMovie",
-                        "description": "The modified movie object.",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/MovieInput"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "ID of the updated movie",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request"
-                    }
-                }
-            }
-        },
-        "/approve-movie/{movieId}": {
-            "post": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Approve new movie",
-                "description": "Allows an admin to approve a movie suggestion, set the status field of the movie(found by Id) as approved.",
-                "operationId": "approveSuggestion",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "movieId",
-                    "description": "Movie id to be approved",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/Movie"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "Successfully added movie to the library",
-                        "schema": {
-                            "$ref": "#/definitions/Movie"
-                        }
-                    },
-                    "404": {
-                        "description": "Movie not found",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/deny-movie/{movieId}": {
-            "delete": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Denies Movie Suggestion",
-                "description": "Delete movie(found by Id) from the database.",
-                "operationId": "denySuggestionById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "path",
-                    "name": "movieId",
-                    "description": "Movie id to be deleted",
-                    "required": true
-                }],
-                "responses": {
-                    "200": {
-                        "description": "Movie successfully deleted from database"
-                    },
-                    "404": {
-                        "description": "Movie not found"
-                    }
-                }
-            }
-        },
-        "/suggestions": {
-            "get": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Get List of Movie Suggestions",
-                "description": "Gets the list of movie suggestions",
-                "operationId": "getSuggestions",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [{
-                    "in": "body",
-                    "name": "jwt",
-                    "description": "the user's web token",
-                    "required": true,
-                    "schema": {
-                        "string": "jsonWebToken"
-                    }
-                }],
-                "responses": {
-                    "201": {
-                        "description": "successfully fetched library",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Movie"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to process request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-          }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "tags": [
-          "visitor", "user", "admin"
-        ],
-        "summary": "Get Library",
-        "description": "Gets the entire library of movies. This will be the home page of the application",
-        "operationId": "createUser",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      "/create-user": {
+          "post": {
+              "tags": [
+                  "user", "admin"
+              ],
+              "summary": "Create user",
+              "description": "username and password (username needs to be unique)",
+              "operationId": "createUser",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "body",
+                  "name": "body",
+                  "description": "Create user object",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/UserCredentials"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully created a user",
+                      "schema": {
+                          "$ref": "#/definitions/User"
+                      }
+                  },
+                  "403": {
+                      "description": "Invalid Credentials",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/movie/{movieId}": {
-      "get": {
-        "tags": [
-          "visitor", "user", "admin"
-        ],
-        "summary": "Get Movie Details",
-        "description": "Gets the details for a movie based off the provided ID",
-        "operationId": "getMovieByID",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "movieId",
-            "description": "Created user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Movie"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched movie details",
-            "schema": {
-              "$ref": "#/definitions/Movie"
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/watchlist": {
-      "get": {
-        "tags": [
-          "user", "admin"
-        ],
-        "summary": "Get User Watchlist",
-        "description": "Returns a list of ids of movies in the current users watchlist",
-        "operationId": "getWatchList",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched watchlist",
-            "schema": {
-              "type": "array",
-              "items": {
-                "_id": "string"
+      },
+      "/": {
+          "get": {
+              "tags": [
+                  "visitor", "user", "admin"
+              ],
+              "summary": "Get Library",
+              "description": "Gets the entire library of movies. This will be the home page of the application",
+              "operationId": "createUser",
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/add-to-watchlist/{movieId}": {
-      "post": {
-        "tags": [
-          "user", "admin"
-        ],
-        "summary": "Add movie to watchlist",
-        "description": "Adds a certain movie that currently exists to a user's watchlist",
-        "operationId": "addToWatchlist",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "movieId",
-            "description": "Adds a movie to watch list",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/movie/{movieId}": {
+          "get": {
+              "tags": [
+                  "visitor", "user", "admin"
+              ],
+              "summary": "Get Movie Details",
+              "description": "Gets the details for a movie based off the provided ID",
+              "operationId": "getMovieByID",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "Created user object",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched movie details",
+                      "schema": {
+                          "$ref": "#/definitions/Movie"
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/remove-from-watchlist/{movieId}": {
-      "put": {
-        "tags": [
-          "user", "admin"
-        ],
-        "summary": "Remove movie from watch list",
-        "description": "Removes a movie id from the user's watchlist",
-        "operationId": "removeFromWatchlist",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "movieId",
-            "description": "remove a certain movie from watchList array",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Movie"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/watchlist": {
+          "get": {
+              "tags": [
+                  "user", "admin"
+              ],
+              "summary": "Get User Watchlist",
+              "description": "Returns a list of ids of movies in the current users watchlist",
+              "operationId": "getWatchList",
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched watchlist",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "_id": "string"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/clear-watchlist": {
-      "put": {
-        "tags": [
-          "user", "admin"
-        ],
-        "summary": "Clear Watchlist",
-        "description": "Allows a user to clear out their entire watchlist",
-        "operationId": "clearWatchlist",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/add-to-watchlist/{movieId}": {
+          "post": {
+              "tags": [
+                  "user", "admin"
+              ],
+              "summary": "Add movie to watchlist",
+              "description": "Adds a certain movie that currently exists to a user's watchlist",
+              "operationId": "addToWatchlist",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "Adds a movie to watch list",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/UserCredentials"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/login": {
-      "post": {
-        "tags": [
-          "visitor", "admin"
-        ],
-        "summary": "Log In",
-        "description": "Log in with credentials",
-        "operationId": "logIn",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/remove-from-watchlist/{movieId}": {
+          "put": {
+              "tags": [
+                  "user", "admin"
+              ],
+              "summary": "Remove movie from watch list",
+              "description": "Removes a movie id from the user's watchlist",
+              "operationId": "removeFromWatchlist",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "remove a certain movie from watchList array",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/signup": {
-      "post": {
-        "tags": [
-          "visitor", "admin"
-        ],
-        "summary": "Sign Up",
-        "description": "Sign up with a new account",
-        "operationId": "signUp",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/clear-watchlist": {
+          "put": {
+              "tags": [
+                  "user", "admin"
+              ],
+              "summary": "Clear Watchlist",
+              "description": "Allows a user to clear out their entire watchlist",
+              "operationId": "clearWatchlist",
+              "produces": [
+                  "application/json"
+              ],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/add-movie": {
-      "post": {
-        "tags": [
-          "admin", "user"
-        ],
-        "summary": "Add movie",
-        "description": "Admin mode: adds a movie directly to the library without going through the suggestion process. User mode: creates a new movie suggestion",
-        "operationId": "addMovie",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "movie",
-            "description": "The expected movie object to create a new movie or suggestion.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MovieInput"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Admin mode: the ID of the newly created movie. User mode: the ID of the newly created movie suggestion",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request"
-          }
-        }
-      }
-    },
-    "/delete-movie/{movieId}": {
-      "delete": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Delete Movie",
-        "description": "Deletes a movie from the library by it's Id",
-        "operationId": "deleteMovieById",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "movieId",
-            "description": "The movie ID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successfully deleted movie"
-          },
-          "500": {
-            "description": "Failed to process request"
-          }
-        }
-      }
-    },
-    "/update-movie/{movieId}": {
-      "put": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Update Movie",
-        "description": "Updates a movie by movie Id",
-        "operationId": "updateMovieById",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "movieId",
-            "description": "The movie ID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "updatedMovie",
-            "description": "The modified movie object.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MovieInput"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "ID of the updated movie",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "500": {
-            "description": "Failed to process request"
-          }
-        }
-      }
-    },
-    "/approve-movie/{suggestionId}": {
-      "post": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Approve new movie",
-        "description": "Allows an admin to approve a movie suggestion",
-        "operationId": "approveSuggestion",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/login": {
+          "post": {
+              "tags": [
+                  "visitor", "admin"
+              ],
+              "summary": "Log In",
+              "description": "Log in with credentials",
+              "operationId": "logIn",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "body",
+                  "name": "body",
+                  "description": "Create user object",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/UserCredentials"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/deny-movie/{suggestionId}": {
-      "post": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Deny Movie Suggestion",
-        "description": "Marks a suggestion as denied by suggestion id",
-        "operationId": "denySuggestionById",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/signup": {
+          "post": {
+              "tags": [
+                  "visitor", "admin"
+              ],
+              "summary": "Sign Up",
+              "description": "Sign up with a new account",
+              "operationId": "signUp",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "body",
+                  "name": "body",
+                  "description": "Create user object",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/UserCredentials"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
-      }
-    },
-    "/suggestions": {
-      "get": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "Get List of Movie Suggestions",
-        "description": "Gets the list of movie suggestions",
-        "operationId": "getSuggestions",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "successfully fetched library",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Movie"
+      },
+      "/add-movie": {
+          "post": {
+              "tags": [
+                  "admin", "user"
+              ],
+              "summary": "Add movie",
+              "description": "Admin mode: adds a movie directly to the library without going through the suggestion process. User mode: creates a new movie suggestion",
+              "operationId": "addMovie",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                      "in": "body",
+                      "name": "userCredentials",
+                      "description": "Credentials to determine if user is an admin",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/UserCredentials"
+                      }
+                  },
+                  {
+                      "in": "body",
+                      "name": "movie",
+                      "description": "The expected movie object to create a new movie or suggestion.",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/MovieInput"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "Admin mode: the ID of the newly created movie. User mode: the ID of the newly created movie suggestion",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request"
+                  }
               }
-            }
-          },
-          "500": {
-            "description": "Failed to process request",
-            "schema": {
-              "type": "string"
-            }
           }
-        }
+      },
+      "/delete-movie/{movieId}": {
+          "delete": {
+              "tags": [
+                  "admin"
+              ],
+              "summary": "Delete Movie",
+              "description": "Deletes a movie from the library by it's Id",
+              "operationId": "deleteMovieById",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "The movie ID",
+                  "required": true,
+                  "type": "string"
+              }],
+              "responses": {
+                  "200": {
+                      "description": "Successfully deleted movie"
+                  },
+                  "500": {
+                      "description": "Failed to process request"
+                  }
+              }
+          }
+      },
+      "/update-movie/{movieId}": {
+          "put": {
+              "tags": [
+                  "admin"
+              ],
+              "summary": "Update Movie",
+              "description": "Updates a movie by movie Id",
+              "operationId": "updateMovieById",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                      "in": "path",
+                      "name": "movieId",
+                      "description": "The movie ID",
+                      "required": true,
+                      "type": "string"
+                  },
+                  {
+                      "in": "body",
+                      "name": "updatedMovie",
+                      "description": "The modified movie object.",
+                      "required": true,
+                      "schema": {
+                          "$ref": "#/definitions/MovieInput"
+                      }
+                  }
+              ],
+              "responses": {
+                  "201": {
+                      "description": "ID of the updated movie",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request"
+                  }
+              }
+          }
+      },
+      "/approve-movie/{movieId}": {
+          "post": {
+              "tags": [
+                  "admin"
+              ],
+              "summary": "Approve new movie",
+              "description": "Allows an admin to approve a movie suggestion, set the status field of the movie(found by Id) as approved.",
+              "operationId": "approveSuggestion",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "Movie id to be approved",
+                  "required": true,
+                  "schema": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "Successfully added movie to the library",
+                      "schema": {
+                          "$ref": "#/definitions/Movie"
+                      }
+                  },
+                  "404": {
+                      "description": "Movie not found",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              }
+          }
+      },
+      "/deny-movie/{movieId}": {
+          "delete": {
+              "tags": [
+                  "admin"
+              ],
+              "summary": "Denies Movie Suggestion",
+              "description": "Delete movie(found by Id) from the database.",
+              "operationId": "denySuggestionById",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "path",
+                  "name": "movieId",
+                  "description": "Movie id to be deleted",
+                  "required": true
+              }],
+              "responses": {
+                  "200": {
+                      "description": "Movie successfully deleted from database"
+                  },
+                  "404": {
+                      "description": "Movie not found"
+                  }
+              }
+          }
+      },
+      "/suggestions": {
+          "get": {
+              "tags": [
+                  "admin"
+              ],
+              "summary": "Get List of Movie Suggestions",
+              "description": "Gets the list of movie suggestions",
+              "operationId": "getSuggestions",
+              "produces": [
+                  "application/json"
+              ],
+              "parameters": [{
+                  "in": "body",
+                  "name": "jwt",
+                  "description": "the user's web token",
+                  "required": true,
+                  "schema": {
+                      "string": "jsonWebToken"
+                  }
+              }],
+              "responses": {
+                  "201": {
+                      "description": "successfully fetched library",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/Movie"
+                          }
+                      }
+                  },
+                  "500": {
+                      "description": "Failed to process request",
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              }
+          }
       }
-    }
   },
   "definitions": {
-    "UserCredentials": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "isAdmin": {
-          "type": "boolean"
-        }
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "isAdmin": {
-          "type": "boolean"
-        },
-        "watchList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Movie"
+      "UserCredentials": {
+          "type": "object",
+          "properties": {
+              "username": {
+                  "type": "string"
+              },
+              "password": {
+                  "type": "string"
+              },
+              "isAdmin": {
+                  "type": "boolean"
+              }
           }
-        },
-        "favList": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Movie"
+      },
+      "User": {
+          "type": "object",
+          "properties": {
+              "id": {
+                  "type": "string"
+              },
+              "name": {
+                  "type": "string"
+              },
+              "email": {
+                  "type": "string"
+              },
+              "password": {
+                  "type": "string"
+              },
+              "isAdmin": {
+                  "type": "boolean"
+              },
+              "watchList": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              },
+              "favList": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              },
+              "suggestionsSent": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/Movie"
+                  }
+              }
           }
-        },
-        "suggestionsSent": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Movie"
+      },
+      "Movie": {
+          "type": "object",
+          "properties": {
+              "id": {
+                  "type": "string"
+              },
+              "title": {
+                  "type": "string"
+              },
+              "yearPublished": {
+                  "type": "string"
+              },
+              "rating": {
+                  "type": "string"
+              },
+              "minutes": {
+                  "type": "string"
+              },
+              "genre": {
+                  "type": "string"
+              },
+              "imageUrl": {
+                  "type": "string"
+              },
+              "status": {
+                  "type": "string"
+              }
           }
-        }
+      },
+      "MovieInput": {
+          "type": "object",
+          "properties": {
+              "title": {
+                  "type": "string"
+              },
+              "yearPublished": {
+                  "type": "string"
+              },
+              "rating": {
+                  "type": "string"
+              },
+              "minutes": {
+                  "type": "string"
+              },
+              "genre": {
+                  "type": "string"
+              },
+              "imageUrl": {
+                  "type": "string"
+              },
+              "status": {
+                  "type": "string"
+              }
+          }
       }
-    },
-    "Movie": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "yearPublished": {
-          "type": "string"
-        },
-        "rating": {
-          "type": "string"
-        },
-        "minutes": {
-          "type": "string"
-        },
-        "genre": {
-          "type": "string"
-        },
-        "imageUrl": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    },
-    "MovieInput": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "yearPublished": {
-          "type": "string"
-        },
-        "rating": {
-          "type": "string"
-        },
-        "minutes": {
-          "type": "string"
-        },
-        "genre": {
-          "type": "string"
-        },
-        "imageUrl": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        }
-      }
-    }
   }
 }
