@@ -376,15 +376,6 @@
         "parameters": [
           {
             "in": "body",
-            "name": "userCredentials",
-            "description": "Credentials to determine if user is an admin",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserCredentials"
-            }
-          },
-          {
-            "in": "body",
             "name": "movie",
             "description": "The expected movie object to create a new movie or suggestion.",
             "required": true,
