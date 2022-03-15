@@ -294,19 +294,16 @@
               }],
               "responses": {
                   "201": {
-                      "description": "successfully fetched library",
+                      "description": "successfully logged in",
                       "schema": {
-                          "type": "array",
-                          "items": {
-                              "$ref": "#/definitions/Movie"
-                          }
+                         "$ref": "#/definitions/UserCredentials"
                       }
                   },
+                  "401": {
+                     "description": "Invalid Credentials"
+                  },
                   "500": {
-                      "description": "Failed to process request",
-                      "schema": {
-                          "type": "string"
-                      }
+                      "description": "Failed to process request"
                   }
               }
           }
@@ -333,19 +330,16 @@
               }],
               "responses": {
                   "201": {
-                      "description": "successfully fetched library",
+                      "description": "successfully signed up",
                       "schema": {
-                          "type": "array",
-                          "items": {
-                              "$ref": "#/definitions/Movie"
-                          }
+                          "$ref": "#/definitions/UserCredentials"
                       }
                   },
+                  "401": {
+                     "description": "Invalid Credentials"
+                  },
                   "500": {
-                      "description": "Failed to process request",
-                      "schema": {
-                          "type": "string"
-                      }
+                      "description": "Failed to process request"
                   }
               }
           }
