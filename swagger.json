@@ -467,7 +467,7 @@
                     "admin"
                 ],
                 "summary": "Approve new movie",
-                "description": "Allows an admin to approve a movie suggestion, set the status field of the movie(found by Id) as approved",
+                "description": "Allows an admin to approve a movie suggestion, set the status field of the movie(found by Id) as approved.",
                 "operationId": "approveSuggestion",
                 "produces": [
                     "application/json"
