@@ -23,6 +23,10 @@ const movieSchema = mongoose.Schema({
   imageUrl: { 
       type: String, 
       required: false 
+    },
+    status:{
+      type:String,
+      required: true
     }
 });
 
