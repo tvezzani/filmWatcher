@@ -6,5 +6,7 @@ const router = express.Router();
 // GET /movies
 router.get('/', moviesController.getMovies );
 
+// Approve movie
+router.get('/approve-movie/:movieId', moviesController.approveMovie);
 
 module.exports = router;
