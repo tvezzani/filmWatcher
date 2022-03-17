@@ -75,3 +75,39 @@ exports.getMovies = (req, res, next) => {
           });
         });
   };
+
+/*************************************************
+ * ADD NEW MOVIE
+ *************************************************/
+exports.addMovie = (req, res, next) => {
+  // TODO: Check if admin
+  // - true  -> set the isApproved to true
+  // - false -> set the isApproved to false (default)
+  
+  // get the movie object out of the request
+  const movie = {
+    title: req.body.title,
+    yearPublished: req.body.yearPublished,
+    rating: req.body.rating,
+    minutes: req.body.minutes,
+    genre: req.body.genre,
+    imageUrl: req.body.imageUrl,
+  }
+  
+  // create a new movie object based off our movie model
+  const movieDBRef = new Movie(movie);
+
+  // save the movie object to the database
+  movieDBRef
+    .save() 
+    .then(result => {
+      console.log("Created Movie")
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+  // send a response
+  // return res.status(201).json({message: "created movie", _id: movieDBRef._id.toString()});
+  return res.status(201).json({message: "created movie"});
+}

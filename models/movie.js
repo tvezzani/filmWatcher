@@ -24,10 +24,10 @@ const movieSchema = mongoose.Schema({
       type: String, 
       required: false 
     },
-    status:{
-      type:String,
-      required: true
-    }
+  isApproved:{
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Movie', movieSchema);
