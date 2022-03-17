@@ -74,6 +74,36 @@
         "/": {
             "get": {
                 "tags": [
+                    "visitor", "user", "admin", "to do"
+                ],
+                "summary": "Get Library",
+                "description": "This route will actually redirect to '/movies'",
+                "operationId": "createUser",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "successfully fetched library",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Movie"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to process request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/movies": {
+            "get": {
+                "tags": [
                     "visitor", "user", "admin"
                 ],
                 "summary": "Get Library",
@@ -101,7 +131,7 @@
                 }
             }
         },
-        "/movie/{movieId}": {
+        "/movies/details/{movieId}": {
             "get": {
                 "tags": [
                     "visitor", "user", "admin", "to do"
@@ -137,7 +167,7 @@
                 }
             }
         },
-        "/watchlist": {
+        "/movies/watchlist": {
             "get": {
                 "tags": [
                     "user", "admin", "to do"
@@ -167,7 +197,7 @@
                 }
             }
         },
-        "/add-to-watchlist/{movieId}": {
+        "/movies/add-to-watchlist/{movieId}": {
             "post": {
                 "tags": [
                     "user", "admin", "to do"
@@ -206,7 +236,7 @@
                 }
             }
         },
-        "/remove-from-watchlist/{movieId}": {
+        "/movies/remove-from-watchlist/{movieId}": {
             "put": {
                 "tags": [
                     "user", "admin", "to do"
@@ -245,7 +275,7 @@
                 }
             }
         },
-        "/clear-watchlist": {
+        "/movies/clear-watchlist": {
             "put": {
                 "tags": [
                     "user", "admin", "to do"
