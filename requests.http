@@ -1,7 +1,20 @@
+@hostname = localhost
+@port = 8080
+@host = {{hostname}}:{{port}}
+@contentType = application/json
 
-
-post http://localhost:8080/movies/approve-movie/62315ecfd94acb66d486a485
-
+post http://{{host}}/movies/approve-movie/62315ecfd94acb66d486a486
 ###
 
-delete  http://localhost:8080/movies/deny-movie/62315ecfd94acb66d486a485
+delete http://{{host}}/movies/deny-movie/62315ecfd94acb66d486a485
+
+
+###
+post http://{{host}}/auth/signup
+Content-Type: {{contentType}}
+
+{
+    "name": "Mateo",
+    "email": "mateo.doda@outlook.com",
+    "password": "mateododa"
+}
