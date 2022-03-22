@@ -140,14 +140,17 @@ exports.addMovie = (req, res, next) => {
 }
 
 
+/*************************************************
+ * DELETE MOVIE
+ *************************************************/
 exports.deleteMovie = (req, res, next) => {
     // Get the movie id
     const movieId = req.params.movieId;
 
-    // find the movie with that Id in the database
+    // find the movie with matching Id in DB
     Movie.findById(movieId)
         .then((movie) => {
-            // If it doesn't exist then return a cant delete response
+            // If it doesn't exist then return a cant delete error
             if (!movie) {
                 const error = new Error('Could not find movie to delete.');
                 error.statusCode = 404;
