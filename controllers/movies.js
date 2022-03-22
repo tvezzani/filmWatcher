@@ -5,7 +5,7 @@ const Movie = require('../models/movie');
  * GET ALL MOVIES
  *************************************************/
 exports.getMovies = (req, res, next) => {
-    Movie.find({ status: 'approved' })
+    Movie.find({ isApproved: true })
         .then((movies) => {
             res.status(200).json({
                 message: "Movies fetched successfully!",
