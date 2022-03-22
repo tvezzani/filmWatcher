@@ -656,12 +656,6 @@
                     "items": {
                         "$ref": "#/definitions/Movie"
                     }
-                },
-                "suggestionsSent": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Movie"
-                    }
                 }
             }
         },
