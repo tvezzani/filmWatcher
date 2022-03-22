@@ -161,7 +161,7 @@ exports.deleteMovie = (req, res, next) => {
             return Movie.findByIdAndRemove(movieId);
         })
         .then((result) => {
-            console.log("Deleted movie id", result._id);
+            console.log("Deleted movie:", result.title);
 
             // return successful response
             res.status(200).json({ message: "Movie deleted" });
