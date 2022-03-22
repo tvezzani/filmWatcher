@@ -409,9 +409,29 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Admin mode: the ID of the newly created movie. User mode: the ID of the newly created movie suggestion",
-                        "schema": {
-                            "type": "string"
+                        "description": "Message confirming movie was created",
+                        "content": {
+                            "application/json": {
+                                "shema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message": "Movie created"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Movie already exists",
+                        "content": {
+                            "application/json": {
+                                "shema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message": "Movie already exists"
+                                    }
+                                }
+                            }
                         }
                     },
                     "500": {
