@@ -78,17 +78,6 @@ exports.getMovies = (req, res, next) => {
 
 /*************************************************
  * ADD NEW MOVIE
-  post http://{{host}}/movies/add-movie
-  Content-Type: {{contentType}}
-
-  {
-      "title": "The Amazing Spiderman 2",
-      "yearPublished": "2014",
-      "rating": "PG-13",
-      "minutes": "141 min",
-      "genre": "Action",
-      "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg"
-  }
  *************************************************/
 exports.addMovie = (req, res, next) => {
   // TODO: Check if admin
