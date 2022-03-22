@@ -27,13 +27,22 @@ exports.getMovieDetails = (req, res, next) => {
     const movieId = req.params.movieId;
     Movie.findById(movieId)
         .then((result) => {
-            res.status(200)
-                .json({ message: "Movie details retrieved", movie: result });
+            if (result.isApproved == true) {
+                res.status(200)
+                    .json({ message: "Movie details retrieved", movie: result });
+            } else {
+                const error = new Error('This movie has not been approved ');
+                error.statusCode = 403;
+                throw error;
+            }
         })
         .catch((err) => {
-            res.status(500).json({
-                message: "An error occurred",
-                error: err,
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            res.status(err.statusCode).json({
+                message: err.message,
+                error: err
             });
         });
 };
@@ -91,25 +100,25 @@ exports.denyMovie = (req, res, next) => {
                 error: err,
             });
         });
-  };
+};
 
 /*************************************************
  * ADD NEW MOVIE
  *************************************************/
 exports.addMovie = (req, res, next) => {
-  // TODO: Check if admin
-  // - true  -> set the isApproved to true
-  // - false -> set the isApproved to false (default)
+    // TODO: Check if admin
+    // - true  -> set the isApproved to true
+    // - false -> set the isApproved to false (default)
 
-  // get the movie info out of the request
-  const movie = {
-    title: req.body.title,
-    yearPublished: req.body.yearPublished,
-    rating: req.body.rating,
-    minutes: req.body.minutes,
-    genre: req.body.genre,
-    imageUrl: req.body.imageUrl,
-  }
+    // get the movie info out of the request
+    const movie = {
+        title: req.body.title,
+        yearPublished: req.body.yearPublished,
+        rating: req.body.rating,
+        minutes: req.body.minutes,
+        genre: req.body.genre,
+        imageUrl: req.body.imageUrl,
+    }
 
   // check to see if a movie with the title already exists in DB
   Movie.findOne({title: movie.title})
