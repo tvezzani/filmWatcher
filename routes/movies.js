@@ -4,12 +4,17 @@ const router = express.Router();
 
 
 // GET /movies
-router.get('/', moviesController.getMovies );
+router.get('/', moviesController.getMovies);
+
+// GET movie details
+router.get('/details/:movieId', moviesController.getMovieDetails);
 
 // Approve movie
 router.post('/approve-movie/:movieId', moviesController.approveMovie);
 
 // Approve movie
 router.delete('/deny-movie/:movieId', moviesController.denyMovie);
+
+router.post('/add-movie', moviesController.addMovie);
 
 module.exports = router;
