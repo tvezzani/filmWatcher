@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-
+const User = require('../models/user')
 
 /*************************************************
  * GET ALL MOVIES
@@ -72,6 +72,7 @@ exports.denyMovie = (req, res, next) => {
     const movieId = req.params.movieId;
 
     //add validation if it is admin
+    User.findById() //this is going to be req.userId
     Movie.findById(movieId)
         .then((movie) => {
             if (!movie) {
