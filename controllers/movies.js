@@ -1,4 +1,5 @@
 const Movie = require('../models/movie');
+const router = require('../routes/auth');
 
 
 /*************************************************
@@ -145,4 +146,39 @@ exports.addMovie = (req, res, next) => {
       res.status(201).json({message: "created movie"});
       return 
   })
+}
+
+
+/*************************************************
+ * DELETE MOVIE
+ *************************************************/
+exports.deleteMovie = (req, res, next) => {
+    // Get the movie id
+    const movieId = req.params.movieId;
+
+    // find the movie with matching Id in DB
+    Movie.findById(movieId)
+        .then((movie) => {
+            // If it doesn't exist then return a cant delete error
+            if (!movie) {
+                const error = new Error('Could not find movie to delete.');
+                error.statusCode = 404;
+                error.message = 'Could not find movie to delete';
+                throw error;
+            }
+            // If it exists then delete it
+            return Movie.findByIdAndRemove(movieId);
+        })
+        .then((result) => {
+            console.log("Deleted movie:", result.title);
+
+            // return successful response
+            res.status(200).json({ message: "Movie deleted" });
+        })
+        .catch((err) => {
+            res.status(500).json({
+                message: err.message,
+                error: err,
+            });
+        });
 }
