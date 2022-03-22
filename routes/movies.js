@@ -15,6 +15,10 @@ router.post('/approve-movie/:movieId', moviesController.approveMovie);
 // Approve movie
 router.delete('/deny-movie/:movieId', moviesController.denyMovie);
 
+// Add New Movie
 router.post('/add-movie', moviesController.addMovie);
+
+// Delete Movie
+router.delete('/delete-movie/:movieId', moviesController.deleteMovie);
 
 module.exports = router;

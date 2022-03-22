@@ -31,3 +31,6 @@ Content-Type: {{contentType}}
     "genre": "Action",
     "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg"
 }
+
+###
+delete http://{{host}}/movies/delete-movie/623372088ac9d00ad5db6a9f
