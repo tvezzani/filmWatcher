@@ -460,10 +460,30 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "Successfully deleted movie"
+                        "description": "Successfully deleted movie",
+                        "content": {
+                            "application/json": {
+                                "shema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message": "Successfully deleted movie"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Failed to process request"
+                        "description": "Failed to process request",
+                        "content": {
+                            "application/json": {
+                                "shema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "message": "Could not find movie to delete"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
