@@ -33,4 +33,4 @@ Content-Type: {{contentType}}
 }
 
 ###
-delete http://{{host}}/movies/delete-movie/623372088ac9d00ad5db6a9f
+delete http://{{host}}/movies/delete-movie/623a0874e55f43521e02828c
