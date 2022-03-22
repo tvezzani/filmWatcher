@@ -120,25 +120,29 @@ exports.addMovie = (req, res, next) => {
         imageUrl: req.body.imageUrl,
     }
 
-    // check to see if a movie with the title already exists in DB
-    if (Movie.findOne({ title: movie.title })) {
-        console.log("Movie already exists");
-        return res.status(409).json({ message: "movie already exists" })
-    }
-
-    // create a new movie object based off our movie model
-    const movieDBRef = new Movie(movie);
-
-    // save the movie object to the database
-    movieDBRef
-        .save()
+  // check to see if a movie with the title already exists in DB
+  Movie.findOne({title: movie.title})
+  .then(result => {
+      if (result != null) {
+          console.log("Movie already exists");
+          res.status(409).json({message: "movie already exists"});
+          return
+      } 
+      // create a new movie object based off our movie model
+      const movieDBRef = new Movie(movie);
+    
+      // save the movie object to the database
+      movieDBRef
+        .save() 
         .then(result => {
-            console.log("Created Movie")
+          console.log("Created Movie")
         })
         .catch(err => {
-            console.log(err);
+          console.log(err);
         })
-
-    // send a response
-    return res.status(201).json({ message: "created movie" });
+    
+      // send a response
+      res.status(201).json({message: "created movie"});
+      return 
+  })
 }
