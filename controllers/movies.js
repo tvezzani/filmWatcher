@@ -78,13 +78,24 @@ exports.getMovies = (req, res, next) => {
 
 /*************************************************
  * ADD NEW MOVIE
+  post http://{{host}}/movies/add-movie
+  Content-Type: {{contentType}}
+
+  {
+      "title": "The Amazing Spiderman 2",
+      "yearPublished": "2014",
+      "rating": "PG-13",
+      "minutes": "141 min",
+      "genre": "Action",
+      "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg"
+  }
  *************************************************/
 exports.addMovie = (req, res, next) => {
   // TODO: Check if admin
   // - true  -> set the isApproved to true
   // - false -> set the isApproved to false (default)
-  
-  // get the movie object out of the request
+
+  // get the movie info out of the request
   const movie = {
     title: req.body.title,
     yearPublished: req.body.yearPublished,
@@ -93,7 +104,13 @@ exports.addMovie = (req, res, next) => {
     genre: req.body.genre,
     imageUrl: req.body.imageUrl,
   }
-  
+
+  // check to see if a movie with the title already exists in DB
+  if (Movie.findOne({title: movie.title})) {
+    console.log("Movie already exists");
+    return res.status(409).json({message: "movie already exists"})
+  }
+
   // create a new movie object based off our movie model
   const movieDBRef = new Movie(movie);
 
@@ -108,6 +125,5 @@ exports.addMovie = (req, res, next) => {
     })
 
   // send a response
-  // return res.status(201).json({message: "created movie", _id: movieDBRef._id.toString()});
   return res.status(201).json({message: "created movie"});
 }
