@@ -134,7 +134,7 @@
         "/movies/details/{movieId}": {
             "get": {
                 "tags": [
-                    "visitor", "user", "admin", "to do"
+                    "visitor", "user", "admin"
                 ],
                 "summary": "Get Movie Details",
                 "description": "Gets the details for a movie based off the provided ID",
