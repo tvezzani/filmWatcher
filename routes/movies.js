@@ -3,11 +3,14 @@ const moviesController = require('../controllers/movies');
 const router = express.Router();
 
 
-// GET /movies
+// Get movies
 router.get('/', moviesController.getMovies);
 
-// GET movie details
+// Get movie details
 router.get('/details/:movieId', moviesController.getMovieDetails);
+
+// Get suggested movies
+router.get('/suggestions', moviesController.getSuggestions);
 
 // Approve movie
 router.post('/approve-movie/:movieId', moviesController.approveMovie);
