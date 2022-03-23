@@ -595,7 +595,7 @@
         "movies/suggestions": {
             "get": {
                 "tags": [
-                    "admin", "to do"
+                    "admin"
                 ],
                 "summary": "Get List of Movie Suggestions",
                 "description": "Gets the list of movie suggestions",
