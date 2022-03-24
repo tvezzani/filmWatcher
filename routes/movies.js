@@ -13,7 +13,8 @@ router.get('/', moviesController.getMovies);
 router.get('/details/:movieId', moviesController.getMovieDetails);
 
 // Get suggested movies
-router.get('/suggestions', isAuth, moviesController.getSuggestions);
+router.get('/suggestions', //isAuth, //uncomment this once tokens are implemented
+    moviesController.getSuggestions);
 
 // Approve movie
 router.post('/approve-movie/:movieId', moviesController.approveMovie);
