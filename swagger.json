@@ -73,7 +73,7 @@
         "/": {
             "get": {
                 "tags": [
-                    "visitor", "user", "admin", "to do"
+                    "visitor", "user", "admin"
                 ],
                 "summary": "Get Library",
                 "description": "This route will actually redirect to '/movies'",
