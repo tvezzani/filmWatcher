@@ -702,6 +702,9 @@
                 "imageUrl": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "isApproved": {
                     "type": "boolean"
                 }
@@ -726,6 +729,9 @@
                     "type": "string"
                 },
                 "imageUrl": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 }
             }
