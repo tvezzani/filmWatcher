@@ -53,17 +53,30 @@ exports.getMovieDetails = (req, res, next) => {
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
-    Movie.find({ isApproved: false })
-        .then((movies) => {
-            res.status(200).json({
-                message: "Movies fetched successfully!",
-                movies: movies,
-            });
+    const userId = '6232d0a61f48263258a321e5'
+        //add validation if it is admin
+    User.findById(userId) //this is going to be req.userId
+        .then(user => {
+            if (!user.isAdmin) {
+                const error = new Error('Not Authenticated as Admin');
+                error.statusCode = 403;
+                throw error;
+            }
+            Movie.find({ isApproved: false })
+                .then((movies) => {
+                    res.status(200).json({
+                        message: "Movies fetched successfully!",
+                        movies: movies,
+                    });
+                })
         })
         .catch((err) => {
-            res.status(500).json({
-                message: "An error occurred",
-                error: err,
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            res.status(err.statusCode).json({
+                message: err.message,
+                error: err
             });
         });
 };
@@ -75,35 +88,35 @@ exports.getSuggestions = (req, res, next) => {
 exports.approveMovie = (req, res, next) => {
     const movieId = req.params.movieId;
     const userId = '6232d0a61f48263258a321e5'
-    //add validation if it is admin
+        //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
-    .then(user => {
-        if (!user.isAdmin){
-            const error = new Error('Not Authenticated as Admin');
-            error.statusCode = 403;
-            throw error;
-        }
-        Movie.findById(movieId)
-        .then((movie) => {
-            movie.isApproved = movie.isApproved ? movie.isApproved : !movie.isApproved;
-            return movie.save();
-        })
-        .then((result) => {
-            res.status(201).json({ message: "Movie added to Library!", movie: result });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                message: "An error occurred",
+        .then(user => {
+            if (!user.isAdmin) {
+                const error = new Error('Not Authenticated as Admin');
+                error.statusCode = 403;
+                throw error;
+            }
+            Movie.findById(movieId)
+                .then((movie) => {
+                    movie.isApproved = movie.isApproved ? movie.isApproved : !movie.isApproved;
+                    return movie.save();
+                })
+                .then((result) => {
+                    res.status(201).json({ message: "Movie added to Library!", movie: result });
+                })
+                .catch((err) => {
+                    res.status(500).json({
+                        message: "An error occurred",
+                        error: err,
+                    });
+                });
+        }).catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            res.status(err.statusCode).json({
+                message: err.message,
                 error: err,
             });
         });
-    }).catch(err => {
-        err.statusCode = err.statusCode ? err.statusCode : 500;
-        res.status(err.statusCode).json({
-            message: err.message,
-            error: err,
-        });
-    });
 };
 
 
@@ -114,40 +127,40 @@ exports.denyMovie = (req, res, next) => {
     const movieId = req.params.movieId;
 
     const userId = '6232d0a61f48263258a321e5'
-    //add validation if it is admin
+        //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
-    .then(user => {
-        if (!user.isAdmin){
-            const error = new Error('Not Authenticated as Admin');
-            error.statusCode = 403;
-            throw error;
-        }
-        Movie.findById(movieId)
-        .then((movie) => {
-            if (!movie) {
-                const error = new Error('Could not find movie.');
-                error.statusCode = 404;
+        .then(user => {
+            if (!user.isAdmin) {
+                const error = new Error('Not Authenticated as Admin');
+                error.statusCode = 403;
                 throw error;
             }
-            return Movie.findByIdAndRemove(movieId);
-        })
-        .then((result) => {
-            console.log(result);
-            res.status(200).json({ message: "Movie denied!" });
-        })
-        .catch((err) => {
-            res.status(500).json({
+            Movie.findById(movieId)
+                .then((movie) => {
+                    if (!movie) {
+                        const error = new Error('Could not find movie.');
+                        error.statusCode = 404;
+                        throw error;
+                    }
+                    return Movie.findByIdAndRemove(movieId);
+                })
+                .then((result) => {
+                    console.log(result);
+                    res.status(200).json({ message: "Movie denied!" });
+                })
+                .catch((err) => {
+                    res.status(500).json({
+                        message: err.message,
+                        error: err,
+                    });
+                });
+        }).catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            res.status(err.statusCode).json({
                 message: err.message,
                 error: err,
             });
         });
-    }).catch(err => {
-        err.statusCode = err.statusCode ? err.statusCode : 500;
-        res.status(err.statusCode).json({
-            message: err.message,
-            error: err,
-        });
-    });
 };
 
 /*************************************************
