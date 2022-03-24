@@ -413,7 +413,7 @@
                         "content": {
                             "application/json": {
                                 "shema": {
-                                    "type":"object",
+                                    "type": "object",
                                     "properties": {
                                         "message": "Movie created"
                                     }
@@ -426,7 +426,7 @@
                         "content": {
                             "application/json": {
                                 "shema": {
-                                    "type":"object",
+                                    "type": "object",
                                     "properties": {
                                         "message": "Movie already exists"
                                     }
@@ -464,7 +464,7 @@
                         "content": {
                             "application/json": {
                                 "shema": {
-                                    "type":"object",
+                                    "type": "object",
                                     "properties": {
                                         "message": "Successfully deleted movie"
                                     }
@@ -477,7 +477,7 @@
                         "content": {
                             "application/json": {
                                 "shema": {
-                                    "type":"object",
+                                    "type": "object",
                                     "properties": {
                                         "message": "Could not find movie to delete"
                                     }
@@ -592,10 +592,10 @@
                 }
             }
         },
-        "/suggestions": {
+        "movies/suggestions": {
             "get": {
                 "tags": [
-                    "admin", "to do"
+                    "admin"
                 ],
                 "summary": "Get List of Movie Suggestions",
                 "description": "Gets the list of movie suggestions",
