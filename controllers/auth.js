@@ -72,7 +72,7 @@ exports.login = (req, res, next) => {
         userId: loadedUser._id.toString()
       },
       'secretPrivateSignature',
-      { expiresIn: '2h' }
+      { expiresIn: '1h' }
     );
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   })
