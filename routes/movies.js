@@ -1,13 +1,20 @@
 const express = require('express');
 const moviesController = require('../controllers/movies');
+
+const isAuth = require('../middleware/is-auth');
+
 const router = express.Router();
 
 
-// GET /movies
+// Get movies
 router.get('/', moviesController.getMovies);
 
-// GET movie details
+// Get movie details
 router.get('/details/:movieId', moviesController.getMovieDetails);
+
+// Get suggested movies
+router.get('/suggestions', //isAuth, //uncomment this once tokens are implemented
+    moviesController.getSuggestions);
 
 // Approve movie
 router.post('/approve-movie/:movieId', moviesController.approveMovie);
