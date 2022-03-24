@@ -19,10 +19,15 @@ const movieSchema = mongoose.Schema({
     },
   genre: { 
       type: String, 
-      required: true },
+      required: true 
+    },
   imageUrl: { 
       type: String, 
       required: false 
+    },
+    desription: {
+      type: String, 
+      required: true 
     },
   isApproved:{
     type: Boolean,

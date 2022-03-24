@@ -6,7 +6,8 @@
     "minutes": "130 min",
     "genre": "Sci-Fi",
     "imageUrl": "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
-    "status": "approved"
+    "description": "Super good movie",
+    "isApproved": true
   },
   {
     "title": "Fast & Furious 9",
@@ -15,7 +16,8 @@
     "minutes": "120 min",
     "genre": "Action",
     "imageUrl": "https://m.media-amazon.com/images/M/MV5BOGI1NmU5NTEtYTliNC00ZjgzLTk3MzQtNTljZWY3YWJkZDhiXkEyXkFqcGdeQWFybm8@._V1_.jpg",
-    "status": "approved"
+    "description": "Great movie",
+    "isApproved": true
   },
   {
     "title": "What Dreams May Come",
@@ -24,6 +26,37 @@
     "minutes": "90 min",
     "genre": "Drama",
     "imageUrl": "https://m.media-amazon.com/images/M/MV5BNTg5ZWRjNTctNmMyMi00NTJmLTg3YjktMzJlMDRiYWQ0MjMzL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
-    "status": "pending"
+    "description": "excellent movie.",
+    "isApproved": false
+  },
+  {
+    "title": "Testing here",
+    "yearPublished": "1998",
+    "rating": "PG-13",
+    "minutes": "90 min",
+    "genre": "Drama",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BNTg5ZWRjNTctNmMyMi00NTJmLTg3YjktMzJlMDRiYWQ0MjMzL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
+    "description": "Outstanding movie.",
+    "isApproved": false
+  },
+  {
+    "title": "Another Test movie",
+    "yearPublished": "1998",
+    "rating": "PG-13",
+    "minutes": "90 min",
+    "genre": "Drama",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BNTg5ZWRjNTctNmMyMi00NTJmLTg3YjktMzJlMDRiYWQ0MjMzL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
+    "description": "excellent movie.",
+    "isApproved": true
+  },
+  {
+    "title": "This is a Test",
+    "yearPublished": "1998",
+    "rating": "PG-13",
+    "minutes": "90 min",
+    "genre": "Drama",
+    "imageUrl": "https://m.media-amazon.com/images/M/MV5BNTg5ZWRjNTctNmMyMi00NTJmLTg3YjktMzJlMDRiYWQ0MjMzL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg",
+    "description": "excellent movie.",
+    "isApproved": true
   }
 ]
