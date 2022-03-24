@@ -3,6 +3,8 @@ const User = require('../models/user');
 
 const bcrypt = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+
 /*************************************************
  * SIGN UP
  *************************************************/
@@ -37,4 +39,47 @@ exports.signup = (req,res,next) =>{
             error: err,
           });
       });
+}
+
+/*************************************************
+ * LOGIN
+ *************************************************/
+exports.login = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  let loadedUser;
+  User.findOne({email: email})
+  .then(user => {
+    if (!user) {
+      res.status(401).json({
+        message: 'A user with this email could not be found.',
+        error: err
+      });
+    }
+    loadedUser = user;
+    return bcrypt.compare(password, user.password);
+  })
+  .then(isEqual => {
+    if (!isEqual) {
+      res.status(401).json({
+        message: 'Incorrect password.',
+        error: err
+      });
+    }
+    const token = jwt.sign(
+      {
+        email: loadedUser.email,
+        userId: loadedUser._id.toString()
+      },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: '1h' }
+    );
+    res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+  })
+  .catch(err => {
+    res.status(500).json({
+      message: 'An error has occurred.',
+      error: err
+    });
+  })
 }
