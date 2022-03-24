@@ -3,10 +3,10 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-post http://{{host}}/movies/approve-movie/62315ecfd94acb66d486a486
+post http://{{host}}/movies/approve-movie/62336331c6977d973559befc
 ###
 
-delete http://{{host}}/movies/deny-movie/62315ecfd94acb66d486a485
+delete http://{{host}}/movies/deny-movie/62336331c6977d973559befc
 
 
 ###
@@ -31,3 +31,6 @@ Content-Type: {{contentType}}
     "genre": "Action",
     "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg"
 }
+
+###
+delete http://{{host}}/movies/delete-movie/623a0874e55f43521e02828c
