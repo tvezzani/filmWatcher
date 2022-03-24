@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "title": "Watcher"
     },
-    "host": "localhost:8080",
+    "host": "film-watcher.herokuapp.com",
     "basePath": "/",
     "tags": [{
             "name": "visitor",
@@ -25,8 +25,7 @@
         }
     ],
     "schemes": [
-        "https",
-        "http"
+        "https"
     ],
     "paths": {
         "/create-user": {
