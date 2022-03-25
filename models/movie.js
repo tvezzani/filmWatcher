@@ -25,7 +25,7 @@ const movieSchema = mongoose.Schema({
       type: String, 
       required: false 
     },
-    desription: {
+    description: {
       type: String, 
       required: true 
     },
