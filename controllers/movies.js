@@ -179,6 +179,7 @@ exports.addMovie = (req, res, next) => {
         minutes: req.body.minutes,
         genre: req.body.genre,
         imageUrl: req.body.imageUrl,
+        description: req.body.description
     }
 
     // check to see if a movie with the title already exists in DB
@@ -241,4 +242,35 @@ exports.deleteMovie = (req, res, next) => {
                 error: err,
             });
         });
-}
+};
+
+/*************************************************
+ * UPDATE MOVIE
+ *************************************************/
+exports.updateMovie = (req, res, next) => {
+  // Get the movieId from url params
+  const movieId = req.params.movieId;
+
+  // create a movie object with the new information
+  const updatedMovie = {
+    title: req.body.title,
+    yearPublished: req.body.yearPublished,
+    rating: req.body.rating,
+    minutes: req.body.minutes,
+    genre: req.body.genre,
+    imageUrl: req.body.imageUrl,
+    description: req.body.description
+  };
+
+  // Find the movie by the ID and then update it with the new info
+  Movie.findByIdAndUpdate(movieId, updatedMovie)
+    .then(oldMovie => {
+      res.status(201).json({message: "Successfully updated movie"});
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "Error updating movie", 
+        error: err
+      });
+    });
+};
