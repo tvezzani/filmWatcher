@@ -169,7 +169,7 @@
         "/movies/watchlist": {
             "get": {
                 "tags": [
-                    "user", "admin", "to do"
+                    "user", "admin"
                 ],
                 "summary": "Get User Watchlist",
                 "description": "Returns a list of ids of movies in the current users watchlist",
@@ -379,7 +379,7 @@
         "/add-movie": {
             "post": {
                 "tags": [
-                    "admin", "user", "to do"
+                    "admin", "user"
                 ],
                 "summary": "Add movie",
                 "description": "Admin mode: adds a movie directly to the library without going through the suggestion process. User mode: creates a new movie suggestion",
@@ -442,7 +442,7 @@
         "/delete-movie/{movieId}": {
             "delete": {
                 "tags": [
-                    "admin", "to do"
+                    "admin"
                 ],
                 "summary": "Delete Movie",
                 "description": "Deletes a movie from the library by it's Id",
@@ -490,7 +490,7 @@
         "/update-movie/{movieId}": {
             "put": {
                 "tags": [
-                    "admin", "to do"
+                    "admin"
                 ],
                 "summary": "Update Movie",
                 "description": "Updates a movie by movie Id",
