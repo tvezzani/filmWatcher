@@ -188,8 +188,9 @@ exports.addMovie = (req, res, next) => {
     Movie.findOne({ title: movie.title })
         .then(result => {
             if (result != null) {
-                console.log("Movie already exists");
-                res.status(409).json({ message: "movie already exists" });
+                const err = new Error("Movie already exists")
+                err.statusCode = 409;
+                next(err);
                 return
             }
             // create a new movie object based off our movie model
@@ -202,7 +203,9 @@ exports.addMovie = (req, res, next) => {
                     console.log("Created Movie")
                 })
                 .catch(err => {
-                    console.log(err);
+                    err.message = "Error saving new movie to DB";
+                    err.statusCode = 400;
+                    next(err);
                 })
 
             // send a response
@@ -227,7 +230,7 @@ exports.deleteMovie = (req, res, next) => {
                 const error = new Error('Could not find movie to delete.');
                 error.statusCode = 404;
                 error.message = 'Could not find movie to delete';
-                throw error;
+                next(error);
             }
             // If it exists then delete it
             return Movie.findByIdAndRemove(movieId);
@@ -239,10 +242,8 @@ exports.deleteMovie = (req, res, next) => {
             res.status(200).json({ message: "Movie deleted" });
         })
         .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                error: err,
-            });
+            err.statusCode = 500;
+            next(err);
         });
 };
 
@@ -270,9 +271,8 @@ exports.updateMovie = (req, res, next) => {
       res.status(201).json({message: "Successfully updated movie"});
     })
     .catch(err => {
-      res.status(500).json({
-        message: "Error updating movie", 
-        error: err
-      });
+        err.message = "Error updating movie";
+        err.statusCode = 500;
+        next(err);
     });
 };
