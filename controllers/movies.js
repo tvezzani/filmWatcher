@@ -86,8 +86,16 @@ exports.getSuggestions = (req, res, next) => {
  * APPROVE MOVIE
  *************************************************/
 exports.approveMovie = (req, res, next) => {
+    // const errors = validationResult(req);
+    // if(!errors.isEmpty()){
+    //     const error = new Error('Authorization failed!');
+    //     error.statusCode = 403;
+    //     throw error;
+    // }
+
     const movieId = req.params.movieId;
     const userId = '6232d0a61f48263258a321e5'
+
         //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
         .then(user => {
@@ -112,10 +120,7 @@ exports.approveMovie = (req, res, next) => {
                 });
         }).catch(err => {
             err.statusCode = err.statusCode ? err.statusCode : 500;
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err,
-            });
+            next(err);
         });
 };
 
@@ -156,10 +161,7 @@ exports.denyMovie = (req, res, next) => {
                 });
         }).catch(err => {
             err.statusCode = err.statusCode ? err.statusCode : 500;
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err,
-            });
+            next(err);
         });
 };
 
