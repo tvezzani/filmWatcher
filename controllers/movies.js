@@ -50,6 +50,40 @@ exports.getMovieDetails = (req, res, next) => {
 };
 
 /*************************************************
+ * GET WATCH LIST
+ *************************************************/
+exports.getWatchlist = (req, res, next) => {
+    const userId = '6232d0a61f48263258a321e5'
+    User.findById(userId)
+        .then((user) => {
+            if (user.watchList.length == 0) {
+                const error = new Error('You do not have any movies in your watchlist');
+                error.statusCode = 404;
+                throw error;
+            } else {
+                let movieArr = [];
+                for (const val of user.watchList) {
+                    Movie.findById(val)
+                        .then((movie) => {
+                            movieArr.push(movie);
+                        })
+                }
+                res.status(200)
+                    .json({ message: "Watch list retrieved", movie: movieArr });
+            }
+        })
+        .catch((err) => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            res.status(err.statusCode).json({
+                message: err.message,
+                error: err
+            });
+        });
+};
+
+/*************************************************
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
@@ -96,7 +130,7 @@ exports.approveMovie = (req, res, next) => {
     const movieId = req.params.movieId;
     const userId = '6232d0a61f48263258a321e5'
 
-        //add validation if it is admin
+    //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
@@ -250,29 +284,29 @@ exports.deleteMovie = (req, res, next) => {
  * UPDATE MOVIE
  *************************************************/
 exports.updateMovie = (req, res, next) => {
-  // Get the movieId from url params
-  const movieId = req.params.movieId;
+    // Get the movieId from url params
+    const movieId = req.params.movieId;
 
-  // create a movie object with the new information
-  const updatedMovie = {
-    title: req.body.title,
-    yearPublished: req.body.yearPublished,
-    rating: req.body.rating,
-    minutes: req.body.minutes,
-    genre: req.body.genre,
-    imageUrl: req.body.imageUrl,
-    description: req.body.description
-  };
+    // create a movie object with the new information
+    const updatedMovie = {
+        title: req.body.title,
+        yearPublished: req.body.yearPublished,
+        rating: req.body.rating,
+        minutes: req.body.minutes,
+        genre: req.body.genre,
+        imageUrl: req.body.imageUrl,
+        description: req.body.description
+    };
 
-  // Find the movie by the ID and then update it with the new info
-  Movie.findByIdAndUpdate(movieId, updatedMovie)
-    .then(oldMovie => {
-      res.status(201).json({message: "Successfully updated movie"});
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: "Error updating movie", 
-        error: err
-      });
-    });
+    // Find the movie by the ID and then update it with the new info
+    Movie.findByIdAndUpdate(movieId, updatedMovie)
+        .then(oldMovie => {
+            res.status(201).json({ message: "Successfully updated movie" });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: "Error updating movie",
+                error: err
+            });
+        });
 };
