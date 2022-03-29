@@ -193,47 +193,65 @@ exports.denyMovie = (req, res, next) => {
  * ADD NEW MOVIE
  *************************************************/
 exports.addMovie = (req, res, next) => {
-    // TODO: Check if admin
-    // - true  -> set the isApproved to true
-    // - false -> set the isApproved to false (default)
-
-    // get the movie info out of the request
-    const movie = {
-        title: req.body.title,
-        yearPublished: req.body.yearPublished,
-        rating: req.body.rating,
-        minutes: req.body.minutes,
-        genre: req.body.genre,
-        imageUrl: req.body.imageUrl,
-        description: req.body.description
-    }
-
-    // check to see if a movie with the title already exists in DB
-    Movie.findOne({ title: movie.title })
-        .then(result => {
-            if (result != null) {
-                console.log("Movie already exists");
-                res.status(409).json({ message: "movie already exists" });
-                return
+    const userId = '62427aabc8a83109e0fe44c1';
+    User.findById(userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
             }
-            // create a new movie object based off our movie model
-            const movieDBRef = new Movie(movie);
 
-            // save the movie object to the database
-            movieDBRef
-                .save()
+            // get the movie info from request
+            const movie = {
+                title: req.body.title,
+                yearPublished: req.body.yearPublished,
+                rating: req.body.rating,
+                minutes: req.body.minutes,
+                genre: req.body.genre,
+                imageUrl: req.body.imageUrl,
+                description: req.body.description,
+                isApproved: user.isAdmin
+            }
+
+            // check to see if a movie with the title already exists in DB
+            Movie.findOne({ title: movie.title })
                 .then(result => {
-                    console.log("Created Movie")
+                    if (result != null) {
+                        const err = new Error("Movie already exists")
+                        err.statusCode = 409;
+                        next(err);
+                        return
+                    }
+                    // create a new movie object based off our movie model
+                    const movieDBRef = new Movie(movie);
+
+                    // save the movie object to the database
+                    movieDBRef
+                        .save()
+                        .then(result => {
+                            console.log("Created Movie")
+                        })
+                        .catch(err => {
+                            err.message = "Error saving new movie to DB";
+                            err.statusCode = 400;
+                            next(err);
+                        })
+
+                    // send a response
+                    res.status(201).json({ message: "created movie" });
+                    return
                 })
                 .catch(err => {
-                    console.log(err);
+                    err.statusCode = err.statusCode ? err.statusCode : 500;
+                    next(err);
                 })
-
-            // send a response
-            res.status(201).json({ message: "created movie" });
-            return
         })
-}
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
 
 
 /*************************************************
@@ -251,7 +269,7 @@ exports.deleteMovie = (req, res, next) => {
                 const error = new Error('Could not find movie to delete.');
                 error.statusCode = 404;
                 error.message = 'Could not find movie to delete';
-                throw error;
+                next(error);
             }
             // If it exists then delete it
             return Movie.findByIdAndRemove(movieId);
@@ -263,10 +281,8 @@ exports.deleteMovie = (req, res, next) => {
             res.status(200).json({ message: "Movie deleted" });
         })
         .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                error: err,
-            });
+            err.statusCode = 500;
+            next(err);
         });
 };
 
@@ -294,9 +310,8 @@ exports.updateMovie = (req, res, next) => {
             res.status(201).json({ message: "Successfully updated movie" });
         })
         .catch(err => {
-            res.status(500).json({
-                message: "Error updating movie",
-                error: err
-            });
+            err.message = "Error updating movie";
+            err.statusCode = 500;
+            next(err);
         });
 };
