@@ -12,6 +12,10 @@ router.get('/', moviesController.getMovies);
 // Get movie details
 router.get('/details/:movieId', moviesController.getMovieDetails);
 
+// Get watchlist
+router.get('/watchlist', //isAuth,
+    moviesController.getWatchlist);
+
 // Get suggested movies
 router.get('/suggestions', //isAuth, //uncomment this once tokens are implemented
     moviesController.getSuggestions);
@@ -27,5 +31,8 @@ router.post('/add-movie', moviesController.addMovie);
 
 // Delete Movie
 router.delete('/delete-movie/:movieId', moviesController.deleteMovie);
+
+// Update Movie
+router.put('/update-movie/:movieId', moviesController.updateMovie);
 
 module.exports = router;

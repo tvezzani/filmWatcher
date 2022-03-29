@@ -15,10 +15,8 @@ exports.getMovies = (req, res, next) => {
             });
         })
         .catch((err) => {
-            res.status(500).json({
-                message: "An error occurred",
-                error: err,
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -39,13 +37,40 @@ exports.getMovieDetails = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
+ * GET WATCH LIST
+ *************************************************/
+exports.getWatchlist = (req, res, next) => {
+    const userId = '62427aaac8a83109e0fe44bf'
+    User.findById(userId)
+        .then((user) => {
+            if (!user) {
+                const error = new Error('Did not find user');
+                error.statusCode = 404;
+                throw error;
+            } else if (user.watchList.length == 0) {
+                const error = new Error('You do not have any movies in your watchlist');
+                error.statusCode = 404;
+                throw error;
+            } else {
+                let movieArr = [];
+                //console.log(user.watchList[0]);
+                Movie.find({ _id: { $in: user.watchList } })
+                    .then((movies) => {
+                        console.log(movies);
+                        res.status(200)
+                            .json({ message: "Watch list retrieved", movies: movies });
+                    })
             }
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err
-            });
+        })
+        .catch((err) => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -53,11 +78,15 @@ exports.getMovieDetails = (req, res, next) => {
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
-    const userId = '6232d0a61f48263258a321e5'
+    const userId = '62427aaac8a83109e0fe44bf'
         //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
         .then(user => {
-            if (!user.isAdmin) {
+            if (!user) {
+                const error = new Error('Did not find user');
+                error.statusCode = 404;
+                throw error;
+            } else if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');
                 error.statusCode = 403;
                 throw error;
@@ -71,13 +100,8 @@ exports.getSuggestions = (req, res, next) => {
                 })
         })
         .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -86,9 +110,17 @@ exports.getSuggestions = (req, res, next) => {
  * APPROVE MOVIE
  *************************************************/
 exports.approveMovie = (req, res, next) => {
+    // const errors = validationResult(req);
+    // if(!errors.isEmpty()){
+    //     const error = new Error('Authorization failed!');
+    //     error.statusCode = 403;
+    //     throw error;
+    // }
+
     const movieId = req.params.movieId;
     const userId = '6232d0a61f48263258a321e5'
-        //add validation if it is admin
+
+    //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
@@ -112,10 +144,7 @@ exports.approveMovie = (req, res, next) => {
                 });
         }).catch(err => {
             err.statusCode = err.statusCode ? err.statusCode : 500;
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err,
-            });
+            next(err);
         });
 };
 
@@ -156,10 +185,7 @@ exports.denyMovie = (req, res, next) => {
                 });
         }).catch(err => {
             err.statusCode = err.statusCode ? err.statusCode : 500;
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err,
-            });
+            next(err);
         });
 };
 
@@ -167,46 +193,65 @@ exports.denyMovie = (req, res, next) => {
  * ADD NEW MOVIE
  *************************************************/
 exports.addMovie = (req, res, next) => {
-    // TODO: Check if admin
-    // - true  -> set the isApproved to true
-    // - false -> set the isApproved to false (default)
-
-    // get the movie info out of the request
-    const movie = {
-        title: req.body.title,
-        yearPublished: req.body.yearPublished,
-        rating: req.body.rating,
-        minutes: req.body.minutes,
-        genre: req.body.genre,
-        imageUrl: req.body.imageUrl,
-    }
-
-    // check to see if a movie with the title already exists in DB
-    Movie.findOne({ title: movie.title })
-        .then(result => {
-            if (result != null) {
-                console.log("Movie already exists");
-                res.status(409).json({ message: "movie already exists" });
-                return
+    const userId = '62427aabc8a83109e0fe44c1';
+    User.findById(userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
             }
-            // create a new movie object based off our movie model
-            const movieDBRef = new Movie(movie);
 
-            // save the movie object to the database
-            movieDBRef
-                .save()
+            // get the movie info from request
+            const movie = {
+                title: req.body.title,
+                yearPublished: req.body.yearPublished,
+                rating: req.body.rating,
+                minutes: req.body.minutes,
+                genre: req.body.genre,
+                imageUrl: req.body.imageUrl,
+                description: req.body.description,
+                isApproved: user.isAdmin
+            }
+
+            // check to see if a movie with the title already exists in DB
+            Movie.findOne({ title: movie.title })
                 .then(result => {
-                    console.log("Created Movie")
+                    if (result != null) {
+                        const err = new Error("Movie already exists")
+                        err.statusCode = 409;
+                        next(err);
+                        return
+                    }
+                    // create a new movie object based off our movie model
+                    const movieDBRef = new Movie(movie);
+
+                    // save the movie object to the database
+                    movieDBRef
+                        .save()
+                        .then(result => {
+                            console.log("Created Movie")
+                        })
+                        .catch(err => {
+                            err.message = "Error saving new movie to DB";
+                            err.statusCode = 400;
+                            next(err);
+                        })
+
+                    // send a response
+                    res.status(201).json({ message: "created movie" });
+                    return
                 })
                 .catch(err => {
-                    console.log(err);
+                    err.statusCode = err.statusCode ? err.statusCode : 500;
+                    next(err);
                 })
-
-            // send a response
-            res.status(201).json({ message: "created movie" });
-            return
         })
-}
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
 
 
 /*************************************************
@@ -224,7 +269,7 @@ exports.deleteMovie = (req, res, next) => {
                 const error = new Error('Could not find movie to delete.');
                 error.statusCode = 404;
                 error.message = 'Could not find movie to delete';
-                throw error;
+                next(error);
             }
             // If it exists then delete it
             return Movie.findByIdAndRemove(movieId);
@@ -236,9 +281,37 @@ exports.deleteMovie = (req, res, next) => {
             res.status(200).json({ message: "Movie deleted" });
         })
         .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                error: err,
-            });
+            err.statusCode = 500;
+            next(err);
         });
-}
+};
+
+/*************************************************
+ * UPDATE MOVIE
+ *************************************************/
+exports.updateMovie = (req, res, next) => {
+    // Get the movieId from url params
+    const movieId = req.params.movieId;
+
+    // create a movie object with the new information
+    const updatedMovie = {
+        title: req.body.title,
+        yearPublished: req.body.yearPublished,
+        rating: req.body.rating,
+        minutes: req.body.minutes,
+        genre: req.body.genre,
+        imageUrl: req.body.imageUrl,
+        description: req.body.description
+    };
+
+    // Find the movie by the ID and then update it with the new info
+    Movie.findByIdAndUpdate(movieId, updatedMovie)
+        .then(oldMovie => {
+            res.status(201).json({ message: "Successfully updated movie" });
+        })
+        .catch(err => {
+            err.message = "Error updating movie";
+            err.statusCode = 500;
+            next(err);
+        });
+};

@@ -3,10 +3,10 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-post http://{{host}}/movies/approve-movie/62336331c6977d973559befc
+post http://{{host}}/movies/approve-movie/6232d0a61f48263258a321e5
 ###
 
-delete http://{{host}}/movies/deny-movie/62336331c6977d973559befc
+delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d0
 
 
 ###
@@ -20,6 +20,7 @@ Content-Type: {{contentType}}
 }
 
 ###
+# ADD MOVIE 
 post http://{{host}}/movies/add-movie
 Content-Type: {{contentType}}
 
@@ -29,8 +30,25 @@ Content-Type: {{contentType}}
     "rating": "PG-13",
     "minutes": "141 min",
     "genre": "Action",
-    "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg"
+    "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
+    "description": "A movie about a guy swinging around and saving people. He has spider powers."
 }
 
 ###
-delete http://{{host}}/movies/delete-movie/623a0874e55f43521e02828c
+# DELETE MOVIE
+delete http://{{host}}/movies/delete-movie/624335122e18536b305c0af2
+
+###
+# UPDATE MOVIE
+put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d0
+Content-Type: {{contentType}}
+
+{
+    "title": "Interstellar",
+    "yearPublished": "2014",
+    "rating": "PG",
+    "minutes": "130 min",
+    "genre": "Sci-Fi",
+    "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
+    "description": "A movie about space. Wow."
+}
