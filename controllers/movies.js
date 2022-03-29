@@ -15,10 +15,8 @@ exports.getMovies = (req, res, next) => {
             });
         })
         .catch((err) => {
-            res.status(500).json({
-                message: "An error occurred",
-                error: err,
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -39,13 +37,8 @@ exports.getMovieDetails = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -73,13 +66,8 @@ exports.getWatchlist = (req, res, next) => {
             }
         })
         .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
@@ -105,13 +93,8 @@ exports.getSuggestions = (req, res, next) => {
                 })
         })
         .catch((err) => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            res.status(err.statusCode).json({
-                message: err.message,
-                error: err
-            });
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
         });
 };
 
