@@ -169,23 +169,29 @@ exports.denyMovie = (req, res, next) => {
  * ADD NEW MOVIE
  *************************************************/
 exports.addMovie = (req, res, next) => {
-    // TODO: Check if admin
-    // - true  -> set the isApproved to true
-    // - false -> set the isApproved to false (default)
+    const userId = '62427aabc8a83109e0fe44c1';
+    User.findById(userId)
+    .then(user => {
+        if (!user) {
+            const err = new Error("Didn't find user with given id");
+            err.statusCode = 401;
+            throw err;
+        }
 
-    // get the movie info out of the request
-    const movie = {
-        title: req.body.title,
-        yearPublished: req.body.yearPublished,
-        rating: req.body.rating,
-        minutes: req.body.minutes,
-        genre: req.body.genre,
-        imageUrl: req.body.imageUrl,
-        description: req.body.description
-    }
-
-    // check to see if a movie with the title already exists in DB
-    Movie.findOne({ title: movie.title })
+        // get the movie info from request
+        const movie = {
+            title: req.body.title,
+            yearPublished: req.body.yearPublished,
+            rating: req.body.rating,
+            minutes: req.body.minutes,
+            genre: req.body.genre,
+            imageUrl: req.body.imageUrl,
+            description: req.body.description,
+            isApproved: user.isAdmin
+        }
+    
+        // check to see if a movie with the title already exists in DB
+        Movie.findOne({ title: movie.title })
         .then(result => {
             if (result != null) {
                 const err = new Error("Movie already exists")
@@ -198,21 +204,30 @@ exports.addMovie = (req, res, next) => {
 
             // save the movie object to the database
             movieDBRef
-                .save()
-                .then(result => {
-                    console.log("Created Movie")
-                })
-                .catch(err => {
-                    err.message = "Error saving new movie to DB";
-                    err.statusCode = 400;
-                    next(err);
-                })
+            .save()
+            .then(result => {
+                console.log("Created Movie")
+            })
+            .catch(err => {
+                err.message = "Error saving new movie to DB";
+                err.statusCode = 400;
+                next(err);
+            })
 
             // send a response
             res.status(201).json({ message: "created movie" });
             return
         })
-}
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        })
+    })
+    .catch(err => {
+        err.statusCode = err.statusCode ? err.statusCode : 500;
+        next(err);
+    });
+};
 
 
 /*************************************************
