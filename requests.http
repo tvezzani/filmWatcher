@@ -3,10 +3,10 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-post http://{{host}}/movies/approve-movie/62336331c6977d973559befc
+post http://{{host}}/movies/approve-movie/6232d0a61f48263258a321e5
 ###
 
-delete http://{{host}}/movies/deny-movie/62336331c6977d973559befc
+delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d0
 
 
 ###

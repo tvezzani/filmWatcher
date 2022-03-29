@@ -25,6 +25,12 @@ app.use('/movies', moviesRoutes);
 app.use('/auth', authRoutes);
 app.use('/', swaggerRoutes);
 
+app.use((error, req, res, next) => {
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({message: message, data: data, statusCode: status});
+})
 
 const db = require('./models');
 
