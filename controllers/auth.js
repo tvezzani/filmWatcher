@@ -31,7 +31,7 @@ exports.signup = (req,res,next) =>{
         return user.save();
       })
       .then(result => {
-          res.status(201).json({message: 'User Created', userId: result._id});
+          res.status(201).json({message: 'User Created'});
       })
       .catch((err) => {
         res.status(500).json({
