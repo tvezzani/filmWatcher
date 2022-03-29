@@ -46,23 +46,26 @@ exports.getMovieDetails = (req, res, next) => {
  * GET WATCH LIST
  *************************************************/
 exports.getWatchlist = (req, res, next) => {
-    const userId = '6232d0a61f48263258a321e5'
+    const userId = '62427aaac8a83109e0fe44bf'
     User.findById(userId)
         .then((user) => {
-            if (user.watchList.length == 0) {
+            if (!user) {
+                const error = new Error('Did not find user');
+                error.statusCode = 404;
+                throw error;
+            } else if (user.watchList.length == 0) {
                 const error = new Error('You do not have any movies in your watchlist');
                 error.statusCode = 404;
                 throw error;
             } else {
                 let movieArr = [];
-                for (const val of user.watchList) {
-                    Movie.findById(val)
-                        .then((movie) => {
-                            movieArr.push(movie);
-                        })
-                }
-                res.status(200)
-                    .json({ message: "Watch list retrieved", movie: movieArr });
+                //console.log(user.watchList[0]);
+                Movie.find({ _id: { $in: user.watchList } })
+                    .then((movies) => {
+                        console.log(movies);
+                        res.status(200)
+                            .json({ message: "Watch list retrieved", movies: movies });
+                    })
             }
         })
         .catch((err) => {
@@ -75,11 +78,15 @@ exports.getWatchlist = (req, res, next) => {
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
-    const userId = '6232d0a61f48263258a321e5'
+    const userId = '62427aaac8a83109e0fe44bf'
         //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
         .then(user => {
-            if (!user.isAdmin) {
+            if (!user) {
+                const error = new Error('Did not find user');
+                error.statusCode = 404;
+                throw error;
+            } else if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');
                 error.statusCode = 403;
                 throw error;
