@@ -36,7 +36,7 @@ Content-Type: {{contentType}}
 
 ###
 # DELETE MOVIE
-delete http://{{host}}/movies/delete-movie/623d16a15955a72ca76276cc
+delete http://{{host}}/movies/delete-movie/624335122e18536b305c0af2
 
 ###
 # UPDATE MOVIE

@@ -32,7 +32,7 @@ exports.signup = (req,res,next) =>{
         return user.save();
       })
       .then(result => {
-          res.status(201).json({message: 'User Created', userId: result._id});
+          res.status(201).json({message: 'User Created'});
       })
       .catch((err) => {
         res.status(500).json({
@@ -46,26 +46,24 @@ exports.signup = (req,res,next) =>{
  * LOGIN
  *************************************************/
 exports.login = (req, res, next) => {
-  const email = req.body.email;
+  const _email = req.body.email;
   const password = req.body.password;
   let loadedUser;
-  User.findOne({email: email})
+  User.findOne({email: _email})
   .then(user => {
     if (!user) {
-      res.status(401).json({
-        message: 'A user with this email could not be found.',
-        error: err
-      });
+      const error = new Error("There is no email by this name.");
+      error.statusCode = 401;
+      throw error;
     }
     loadedUser = user;
     return bcrypt.compare(password, user.password);
   })
   .then(isEqual => {
     if (!isEqual) {
-      res.status(401).json({
-        message: 'Incorrect password.',
-        error: err
-      });
+      const error = new Error("Incorrect password.");
+      error.statusCode = 401;
+      throw error;
     }
     const token = jwt.sign(
       {
@@ -78,9 +76,6 @@ exports.login = (req, res, next) => {
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
   })
   .catch(err => {
-    res.status(500).json({
-      message: 'An error has occurred.',
-      error: err
-    });
+    next(err);
   })
 }

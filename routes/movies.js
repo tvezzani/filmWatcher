@@ -12,6 +12,10 @@ router.get('/', moviesController.getMovies);
 // Get movie details
 router.get('/details/:movieId', moviesController.getMovieDetails);
 
+// Get watchlist
+router.get('/watchlist', //isAuth,
+    moviesController.getWatchlist);
+
 // Get suggested movies
 router.get('/suggestions', //isAuth, //uncomment this once tokens are implemented
     moviesController.getSuggestions);
