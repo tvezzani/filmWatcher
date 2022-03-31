@@ -3,7 +3,23 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
+###
+post http://{{host}}/auth/login
+Content-Type: {{contentType}}
+
+{
+    "email": "mateo.doda@outlook.com",
+    "password": "mateododa"
+}
+
+###
+get http://{{host}}/movies/suggestions
+Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg1NzY3NzcsImV4cCI6MTY0ODU4MDM3N30.RW2VeW2VqcanfIdA06_jPS063CFZnfrAdUu9AvN9ue8"
+
+
+###
 post http://{{host}}/movies/approve-movie/6232d0a61f48263258a321e5
+
 ###
 
 delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d0
