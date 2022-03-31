@@ -1,6 +1,7 @@
 const Movie = require('../models/movie');
 const User = require('../models/user')
 const router = require('../routes/auth');
+const {validationResult} = require('express-validator');
 
 
 /*************************************************
@@ -194,6 +195,12 @@ exports.denyMovie = (req, res, next) => {
  * ADD NEW MOVIE
  *************************************************/
 exports.addMovie = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
     const userId = '62427aabc8a83109e0fe44c1';
     User.findById(userId)
         .then(user => {

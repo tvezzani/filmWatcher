@@ -41,13 +41,13 @@ post http://{{host}}/movies/add-movie
 Content-Type: {{contentType}}
 
 {
-    "title": "The Amazing Spiderman 2",
+    "title": "The",
     "yearPublished": "2014",
     "rating": "PG-13",
     "minutes": "141 min",
     "genre": "Action",
     "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
-    "description": "A movie about a guy swinging around and saving people. He has spider powers."
+    "description": "A movie about a guy swinging around and saving people. He has spider powers.He is fast"
 }
 
 ###
