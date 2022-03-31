@@ -78,9 +78,10 @@ exports.getWatchlist = (req, res, next) => {
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
-    const userId = '62427aaac8a83109e0fe44bf'
+    // const userId = '62427aaac8a83109e0fe44bf'
+
         //add validation if it is admin
-    User.findById(userId) //this is going to be req.userId
+    User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user) {
                 const error = new Error('Did not find user');
