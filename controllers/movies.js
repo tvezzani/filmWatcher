@@ -298,6 +298,12 @@ exports.deleteMovie = (req, res, next) => {
  * UPDATE MOVIE
  *************************************************/
 exports.updateMovie = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
     // Get the movieId from url params
     const movieId = req.params.movieId;
 
