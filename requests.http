@@ -41,30 +41,32 @@ post http://{{host}}/movies/add-movie
 Content-Type: {{contentType}}
 
 {
-    "title": "The",
+    "title": "The Amazing Spiderman 2",
     "yearPublished": "2014",
     "rating": "PG-13",
     "minutes": "141 min",
     "genre": "Action",
     "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
-    "description": "A movie about a guy swinging around and saving people. He has spider powers.He is fast"
+    "description": "A movie about a guy swinging around and saving people. He has spider powers.He is fast",
+    "starRating": "3"
 }
 
 ###
 # DELETE MOVIE
-delete http://{{host}}/movies/delete-movie/624335122e18536b305c0af2
+delete http://{{host}}/movies/delete-movie/6243a97d95ca263bb0ae47a1
 
 ###
 # UPDATE MOVIE
-put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d0
+put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d5
 Content-Type: {{contentType}}
 
 {
-    "title": "Interstellar",
-    "yearPublished": "2014",
-    "rating": "PG",
-    "minutes": "130 min",
-    "genre": "Sci-Fi",
-    "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
-    "description": "A movie about space. Wow."
+    "title": "Titanic",
+    "yearPublished": "1997",
+    "rating": "PG-13",
+    "minutes": "194 min",
+    "genre": "Romance",
+    "imageUrl": "https://originalvintagemovieposters.com/wp-content/uploads/2020/02/TITANIC-8567-scaled.jpg",
+    "description": "Plot twist...there's an iceberg",
+    "starRating": "4"
 }

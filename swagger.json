@@ -702,6 +702,9 @@
                 "description": {
                     "type": "string"
                 },
+                "starRating": {
+                    "type": "string"
+                },
                 "isApproved": {
                     "type": "boolean"
                 }
@@ -729,6 +732,9 @@
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "starRating": {
                     "type": "string"
                 }
             }
