@@ -24,7 +24,6 @@ post http://{{host}}/movies/approve-movie/6232d0a61f48263258a321e5
 
 delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d0
 
-
 ###
 post http://{{host}}/auth/signup
 Content-Type: {{contentType}}
@@ -41,14 +40,14 @@ post http://{{host}}/movies/add-movie
 Content-Type: {{contentType}}
 
 {
-    "title": "The Amazing Spiderman 2",
+    "title": "Captain America: The Winter Soldier",
     "yearPublished": "2014",
     "rating": "PG-13",
-    "minutes": "141 min",
+    "minutes": "136 min",
     "genre": "Action",
-    "imageUrl": "https://buzz.tt/media/posters/511/posters_0_1500.jpg",
-    "description": "A movie about a guy swinging around and saving people. He has spider powers.He is fast",
-    "starRating": "3"
+    "imageUrl": "newdvdreleasedates.com/images/posters/full/captain-america-the-winter-soldier-2014-11.jpg",
+    "description": "As Steve Rogers struggles to embrace his role in the modern world, he teams up with a fellow Avenger and S.H.I.E.L.D agent, Black Widow, to battle a new threat from history: an assassin known as the Winter Soldier.",
+    "starRating": "5"
 }
 
 ###
@@ -57,16 +56,16 @@ delete http://{{host}}/movies/delete-movie/6243a97d95ca263bb0ae47a1
 
 ###
 # UPDATE MOVIE
-put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d5
+put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d4
 Content-Type: {{contentType}}
 
 {
-    "title": "Titanic",
-    "yearPublished": "1997",
+    "title": "What Dreams May Come",
+    "yearPublished": "1998",
     "rating": "PG-13",
-    "minutes": "194 min",
-    "genre": "Romance",
-    "imageUrl": "https://originalvintagemovieposters.com/wp-content/uploads/2020/02/TITANIC-8567-scaled.jpg",
-    "description": "Plot twist...there's an iceberg",
-    "starRating": "4"
+    "minutes": "113 min",
+    "genre": "Drama",
+    "imageUrl": "https://s5.mzstatic.com/us/r30/Video/f1/c1/1d/mzi.lyxyuotc.jpg",
+    "description": "Chris Nielsen dies in an accident, and enters Heaven. But when he discovers that his beloved wife Annie has killed herself out of grief over the loss, he embarks on an afterlife adventure to reunite with her.",
+    "starRating": "5"
 }
