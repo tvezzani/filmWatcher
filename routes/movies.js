@@ -17,7 +17,7 @@ router.get('/watchlist', //isAuth,
     moviesController.getWatchlist);
 
 // Get suggested movies
-router.get('/suggestions', //isAuth, //uncomment this once tokens are implemented
+router.get('/suggestions', isAuth, //uncomment this once tokens are implemented
     moviesController.getSuggestions);
 
 // Approve movie
