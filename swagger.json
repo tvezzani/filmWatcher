@@ -307,7 +307,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "visitor", "admin", "to do"
+                    "visitor", "admin"
                 ],
                 "summary": "Log In",
                 "description": "Log in with credentials",
@@ -328,7 +328,7 @@
                     "201": {
                         "description": "successfully logged in",
                         "schema": {
-                            "$ref": "#/definitions/UserCredentials"
+                            "$ref": "#/definitions/Token"
                         }
                     },
                     "401": {
@@ -362,10 +362,7 @@
                 }],
                 "responses": {
                     "201": {
-                        "description": "successfully signed up",
-                        "schema": {
-                            "$ref": "#/definitions/UserCredentials"
-                        }
+                        "description": "successfully signed up"
                     },
                     "401": {
                         "description": "Invalid Credentials"
@@ -705,6 +702,9 @@
                 "description": {
                     "type": "string"
                 },
+                "starRating": {
+                    "type": "string"
+                },
                 "isApproved": {
                     "type": "boolean"
                 }
@@ -732,6 +732,20 @@
                     "type": "string"
                 },
                 "description": {
+                    "type": "string"
+                },
+                "starRating": {
+                    "type": "string"
+                }
+            }
+        },
+        "Token": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }
