@@ -219,6 +219,7 @@ exports.addMovie = (req, res, next) => {
                 genre: req.body.genre,
                 imageUrl: req.body.imageUrl,
                 description: req.body.description,
+                starRating: req.body.starRating,
                 isApproved: user.isAdmin
             }
 
@@ -315,7 +316,8 @@ exports.updateMovie = (req, res, next) => {
         minutes: req.body.minutes,
         genre: req.body.genre,
         imageUrl: req.body.imageUrl,
-        description: req.body.description
+        description: req.body.description,
+        starRating: req.body.starRating
     };
 
     // Find the movie by the ID and then update it with the new info
