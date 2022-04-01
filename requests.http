@@ -74,3 +74,8 @@ Content-Type: {{contentType}}
     "description": "Chris Nielsen dies in an accident, and enters Heaven. But when he discovers that his beloved wife Annie has killed herself out of grief over the loss, he embarks on an afterlife adventure to reunite with her.",
     "starRating": "5"
 }
+
+###
+# Get Watchlist
+GET http://{{host}}/movies/watchlist
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4NDA4OTksImV4cCI6MTY0ODg0NDQ5OX0.LFAbaKCT38KmrP9UD45oo5JQ38bG2oPuVyMMakq59AY

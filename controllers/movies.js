@@ -47,8 +47,7 @@ exports.getMovieDetails = (req, res, next) => {
  * GET WATCH LIST
  *************************************************/
 exports.getWatchlist = (req, res, next) => {
-    const userId = '62427aaac8a83109e0fe44bf'
-    User.findById(userId)
+    User.findById(req.userId)
         .then((user) => {
             if (!user) {
                 const error = new Error('Did not find user');
@@ -63,7 +62,7 @@ exports.getWatchlist = (req, res, next) => {
                 //console.log(user.watchList[0]);
                 Movie.find({ _id: { $in: user.watchList } })
                     .then((movies) => {
-                        console.log(movies);
+                        // console.log(movies);
                         res.status(200)
                             .json({ message: "Watch list retrieved", movies: movies });
                     })
