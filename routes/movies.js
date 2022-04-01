@@ -39,7 +39,7 @@ router.delete('/deny-movie/:movieId', moviesController.denyMovie);
 // Add New Movie
 router.post('/add-movie',  
   [
-    body("title").trim().isLength({ min: 5 }),
+    body("title").trim().isLength({ min: 4 }),
     body("description").trim().isLength({ min: 5 }),
   ], moviesController.addMovie);
 
