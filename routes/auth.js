@@ -4,6 +4,7 @@ const {body} = require('express-validator')
 
 const authController = require('../controllers/auth');
 const jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 const router = express.Router();
 
@@ -26,21 +27,15 @@ router.post('/signup',[
 router.post('/login', authController.login);
 
 router.put('/logout', function (req, res) {
-  const authHeader = req.headers["Authorization"];
-  jwt.sign(authHeader, "", { expiresIn: '1ms' }, (logout, err) => {
-    if (logout) {
-      res.status(201).json({message: 'You have been logged out'});
-    }
-    else {
-      const error = new Error('Error logging out.');
-      error.statusCode = 400;
-      throw error;
-    }
-  })
-  .catch((err) => {
-    err.statusCode = err.statusCode ? err.statusCode : 500;next(err);
-  });
-
+  const token = jwt.sign(
+    {
+      email: "",
+      userId: ""
+    },
+    process.env.ACCESS_TOKEN_SECRET, 
+    { expiresIn: '1' }
+  );
+  return res.status(200).json({ token: token });
 });
 
 module.exports = router;
