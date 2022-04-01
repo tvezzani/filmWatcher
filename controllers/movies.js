@@ -47,8 +47,8 @@ exports.getMovieDetails = (req, res, next) => {
  * GET WATCH LIST
  *************************************************/
 exports.getWatchlist = (req, res, next) => {
-    const userId = '62427aaac8a83109e0fe44bf'
-    User.findById(userId)
+    // const userId = '62427aaac8a83109e0fe44bf'
+    User.findById(req.userId)
         .then((user) => {
             if (!user) {
                 const error = new Error('Did not find user');
@@ -86,7 +86,7 @@ exports.getWatchlist = (req, res, next) => {
     //     error.statusCode = 422;
     //     throw error;
     // }
-    User.findById(userId)
+    User.findById(req.userId)
         .then((user) => {
             if (!user) {
                 const err = new Error('Did not find user with given id');
@@ -95,7 +95,7 @@ exports.getWatchlist = (req, res, next) => {
             } else {
                 let movieArr = [];
             // check to see if a movie with the title already exists in the user's watchlist
-            console.log(user.watchList + id);
+            console.log(user.watchList);
             }
             // for(var i = 0; i < user.watchList.length; i++)
             //     {

@@ -13,12 +13,10 @@ router.get('/', moviesController.getMovies);
 router.get('/details/:movieId', moviesController.getMovieDetails);
 
 // Get watchlist
-router.get('/watchlist', //isAuth,
-    moviesController.getWatchlist);
+router.get('/watchlist', isAuth, moviesController.getWatchlist);
 
 // Add to watchlist
-router.post('/watchlist/:movieId', //isAuth,
-moviesController.addToWatchlist);
+router.post('/watchlist/:movieId', isAuth, moviesController.addToWatchlist);
 
 // Remove from watchlist
 router.delete('/watchlist/:movieId', isAuth, moviesController.removeFromWatchlist);
