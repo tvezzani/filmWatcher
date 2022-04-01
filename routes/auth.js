@@ -3,6 +3,8 @@ const User = require('../models/user');
 const {body} = require('express-validator')
 
 const authController = require('../controllers/auth');
+const jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 const router = express.Router();
 
@@ -23,5 +25,17 @@ router.post('/signup',[
   ], authController.signup);
 
 router.post('/login', authController.login);
+
+router.put('/logout', function (req, res) {
+  const token = jwt.sign(
+    {
+      email: "",
+      userId: ""
+    },
+    process.env.ACCESS_TOKEN_SECRET, 
+    { expiresIn: '1' }
+  );
+  return res.status(200).json({ token: token });
+});
 
 module.exports = router;
