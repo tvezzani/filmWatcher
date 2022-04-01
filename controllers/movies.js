@@ -201,7 +201,7 @@ exports.addMovie = (req, res, next) => {
         error.statusCode = 422;
         throw error;
     }
-    const userId = '62427aabc8a83109e0fe44c1';
+    const userId = '62427aaac8a83109e0fe44bf';
     User.findById(userId)
         .then(user => {
             if (!user) {
@@ -219,6 +219,7 @@ exports.addMovie = (req, res, next) => {
                 genre: req.body.genre,
                 imageUrl: req.body.imageUrl,
                 description: req.body.description,
+                starRating: req.body.starRating,
                 isApproved: user.isAdmin
             }
 
@@ -277,7 +278,7 @@ exports.deleteMovie = (req, res, next) => {
                 const error = new Error('Could not find movie to delete.');
                 error.statusCode = 404;
                 error.message = 'Could not find movie to delete';
-                next(error);
+                throw error;
             }
             // If it exists then delete it
             return Movie.findByIdAndRemove(movieId);
@@ -289,7 +290,7 @@ exports.deleteMovie = (req, res, next) => {
             res.status(200).json({ message: "Movie deleted" });
         })
         .catch((err) => {
-            err.statusCode = 500;
+            err.statusCode = err.statusCode ? err.statusCode : 500;
             next(err);
         });
 };
@@ -315,7 +316,8 @@ exports.updateMovie = (req, res, next) => {
         minutes: req.body.minutes,
         genre: req.body.genre,
         imageUrl: req.body.imageUrl,
-        description: req.body.description
+        description: req.body.description,
+        starRating: req.body.starRating
     };
 
     // Find the movie by the ID and then update it with the new info
@@ -325,7 +327,7 @@ exports.updateMovie = (req, res, next) => {
         })
         .catch(err => {
             err.message = "Error updating movie";
-            err.statusCode = 500;
+            err.statusCode = err.statusCode ? err.statusCode : 500;
             next(err);
         });
 };
