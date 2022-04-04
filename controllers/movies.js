@@ -160,11 +160,10 @@ exports.getFavorites = (req, res, next) => {
             next(err);
         });
 };
-
 /*************************************************
- * CLEAR WATCHLIST
+ * CLEAR FAVORITES
  *************************************************/
- exports.clearWatchlist = (req, res, next) => {
+ exports.clearFavorites = (req, res, next) => {
     User.findById(req.userId)
         .then(user => {
             if (!user) {
@@ -377,7 +376,7 @@ exports.approveMovie = (req, res, next) => {
     const movieId = req.params.movieId;
 
     //add validation if it is admin
-    User.findById(userId) //this is going to be req.userId
+    User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');

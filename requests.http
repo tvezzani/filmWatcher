@@ -3,33 +3,13 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-###
-post http://{{host}}/auth/login
-Content-Type: {{contentType}}
-
-{
-    "email": "mateo.doda@outlook.com",
-    "password": "mateododa"
-}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDkwOTQxMjgsImV4cCI6MTY0OTA5NzcyOH0.K1VHj03yLid9lTHBXSEb7RiPFbWWHlnGlIvy4Kt-ilM
 
 ###
-put http://{{host}}/auth/logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4NDA0NDQsImV4cCI6MTY0ODg0NDA0NH0.cRPGWBQ55DZme1iGpmIUgMJJ0VGy_4OfOKsc-mmX-Qk
-
+get http://{{host}}/
 
 ###
-get http://{{host}}/movies/suggestions
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4NDA0NDQsImV4cCI6MTY0ODg0NDA0NH0.cRPGWBQ55DZme1iGpmIUgMJJ0VGy_4OfOKsc-mmX-Qk
-
-
-###
-post http://{{host}}/movies/approve-movie/6232d0a61f48263258a321e5
-
-###
-
-delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d0
-
-###
+# Signup
 post http://{{host}}/auth/signup
 Content-Type: {{contentType}}
 
@@ -40,9 +20,65 @@ Content-Type: {{contentType}}
 }
 
 ###
+# Login 
+post http://{{host}}/auth/login
+Content-Type: {{contentType}}
+
+{
+    "email": "mateo.doda@outlook.com",
+    "password": "mateododa"
+}
+
+###
+# Logout user
+put http://{{host}}/auth/logout
+Authorization: Bearer {{token}}
+
+###
+# Get Watchlist
+get http://{{host}}/movies/watchlist
+Authorization: Bearer {{token}}
+
+###
+# Add To Watchlist
+post http://{{host}}/movies/watchlist/623cbe8b622e693a014e06d1
+Authorization: Bearer {{token}}
+
+###
+# DELETE from Watchlist
+delete http://{{host}}/movies/watchlist/623cbe8b622e693a014e06d1
+Authorization: Bearer {{token}}
+
+###
+# GET Favorites
+get http://{{host}}/movies/favorites
+Authorization: Bearer {{token}}
+
+###
+# Add To Favorites
+post http://{{host}}/movies/favorites/623cbe8b622e693a014e06d2
+Authorization: Bearer {{token}}
+
+###
+# DELETE from Favorites
+delete http://{{host}}/movies/favorites/623cbe8b622e693a014e06d2
+Authorization: Bearer {{token}}
+
+###
+# CLEAR  Favorites
+delete http://{{host}}/movies/favorites
+Authorization: Bearer {{token}}
+
+###
+# Get movie suggestions
+get http://{{host}}/movies/suggestions
+Authorization: Bearer {{token}}
+
+###
 # ADD MOVIE 
 post http://{{host}}/movies/add-movie
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
     "title": "Captain America: The Winter Soldier",
@@ -57,12 +93,14 @@ Content-Type: {{contentType}}
 
 ###
 # DELETE MOVIE
-delete http://{{host}}/movies/delete-movie/6243a97d95ca263bb0ae47a1
+delete http://{{host}}/movies/delete-movie/624b28e43e8c458cc72662c8
+Authorization: Bearer {{token}}
 
 ###
 # UPDATE MOVIE
 put http://{{host}}/movies/update-movie/623cbe8b622e693a014e06d4
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
     "title": "What Dreams May Come",
@@ -76,16 +114,15 @@ Content-Type: {{contentType}}
 }
 
 ###
-# Get Watchlist
-get http://{{host}}/movies/watchlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4MzU5NjksImV4cCI6MTY0ODgzOTU2OX0.tByRsIpkbuFYN53KEWzmpBli1vLi3AYk9COgT8m3WCw
+# Approve movie
+post http://{{host}}/movies/approve-movie/623cbe8b622e693a014e06d2
+Authorization: Bearer {{token}}
 
 ###
-# Add To Watchlist
-post http://{{host}}/movies/watchlist/623cbe8b622e693a014e06d1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4MzU1MDQsImV4cCI6MTY0ODgzOTEwNH0.duuF7j0zE6qZebm4EMBk7sEU8UsSu86cDCtj_pHhq78
+# Deny movie
+delete http://{{host}}/movies/deny-movie/623cbe8b622e693a014e06d3
+Authorization: Bearer {{token}}
 
-###
-# Add To Favorites
-post http://{{host}}/movies/favorites/623cbe8b622e693a014e06d1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4MzU1MDQsImV4cCI6MTY0ODgzOTEwNH0.duuF7j0zE6qZebm4EMBk7sEU8UsSu86cDCtj_pHhq78
+
+
+
