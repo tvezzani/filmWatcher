@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
 const User = require('../models/user')
 const router = require('../routes/auth');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 
 /*************************************************
@@ -47,6 +47,7 @@ exports.getMovieDetails = (req, res, next) => {
  * GET WATCH LIST
  *************************************************/
 exports.getWatchlist = (req, res, next) => {
+    // const userId = '62427aaac8a83109e0fe44bf'
     User.findById(req.userId)
         .then((user) => {
             if (!user) {
@@ -62,7 +63,6 @@ exports.getWatchlist = (req, res, next) => {
                 //console.log(user.watchList[0]);
                 Movie.find({ _id: { $in: user.watchList } })
                     .then((movies) => {
-                        // console.log(movies);
                         res.status(200)
                             .json({ message: "Watch list retrieved", movies: movies });
                     })
@@ -75,12 +75,124 @@ exports.getWatchlist = (req, res, next) => {
 };
 
 /*************************************************
+ * ADD MOVIE TO WATCHLIST
+ *************************************************/
+ exports.addToWatchlist = (req, res, next) => {
+    const errors = validationResult(req);
+    const movieId = req.params.movieId;
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+
+            //Includes a duplicate id
+            if (user.watchList.includes(movieId))
+            {
+                const err = new Error("This movie is already included in your watchlist");
+                err.statusCode = 409;
+                throw err;
+            }
+
+            user.watchList.push(movieId);
+            user.save()
+            //add id to watchlist
+            .then((user) => {
+                res.status(200)
+                    .json({ message: `Updated watchlist with ${movieId}`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
+ * REMOVE FROM WATCHLIST
+ *************************************************/
+ exports.removeFromWatchlist = (req, res, next) => {
+    const errors = validationResult(req);
+    const movieId = req.params.movieId;
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+
+            //Includes a duplicate id
+            if (!user.watchList.includes(movieId))
+            {
+                const err = new Error("This movie is not in your watchlist");
+                err.statusCode = 409;
+                throw err;
+            }
+
+            const pos = user.watchList.findIndex(id => id.toString() === movieId);
+            user.watchList.splice(pos, 1);
+            user.save()
+            //add id to watchlist
+            .then((user) => {
+                // console.log(user); 
+                res.status(200)
+                    .json({ message: `Removed ${movieId} from watchlist`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+/*************************************************
+ * CLEAR WATCHLIST
+ *************************************************/
+ exports.clearWatchlist = (req, res, next) => {
+    const movieId = req.params.movieId;
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+            user.watchList = [];
+            user.save()
+            //add id to watchlist
+            .then((user) => {
+                res.status(200)
+                    .json({ message: `Cleared watchlist`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
  * GET SUGGESTED
  *************************************************/
 exports.getSuggestions = (req, res, next) => {
     // const userId = '62427aaac8a83109e0fe44bf'
 
-        //add validation if it is admin
+    //add validation if it is admin
     User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user) {
@@ -119,10 +231,9 @@ exports.approveMovie = (req, res, next) => {
     // }
 
     const movieId = req.params.movieId;
-    const userId = '6232d0a61f48263258a321e5'
 
     //add validation if it is admin
-    User.findById(userId) //this is going to be req.userId
+    User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');
@@ -156,9 +267,8 @@ exports.approveMovie = (req, res, next) => {
 exports.denyMovie = (req, res, next) => {
     const movieId = req.params.movieId;
 
-    const userId = '6232d0a61f48263258a321e5'
-        //add validation if it is admin
-    User.findById(userId) //this is going to be req.userId
+    //add validation if it is admin
+    User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');
@@ -195,13 +305,12 @@ exports.denyMovie = (req, res, next) => {
  *************************************************/
 exports.addMovie = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         const error = new Error('Invalid input data!');
         error.statusCode = 422;
         throw error;
     }
-    const userId = '62427aaac8a83109e0fe44bf';
-    User.findById(userId)
+    User.findById(req.userId)
         .then(user => {
             if (!user) {
                 const err = new Error("Didn't find user with given id");
@@ -299,7 +408,7 @@ exports.deleteMovie = (req, res, next) => {
  *************************************************/
 exports.updateMovie = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         const error = new Error('Invalid input data!');
         error.statusCode = 422;
         throw error;
