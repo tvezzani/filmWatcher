@@ -77,5 +77,10 @@ Content-Type: {{contentType}}
 
 ###
 # Get Watchlist
-GET http://{{host}}/movies/watchlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4NDA4OTksImV4cCI6MTY0ODg0NDQ5OX0.LFAbaKCT38KmrP9UD45oo5JQ38bG2oPuVyMMakq59AY
+get http://{{host}}/movies/watchlist
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4MzU5NjksImV4cCI6MTY0ODgzOTU2OX0.tByRsIpkbuFYN53KEWzmpBli1vLi3AYk9COgT8m3WCw
+
+###
+# Add To Watchlist
+post http://{{host}}/movies/watchlist/623cbe8b622e693a014e06d1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDg4MzU1MDQsImV4cCI6MTY0ODgzOTEwNH0.duuF7j0zE6qZebm4EMBk7sEU8UsSu86cDCtj_pHhq78

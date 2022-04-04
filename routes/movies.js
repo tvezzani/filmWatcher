@@ -13,8 +13,16 @@ router.get('/', moviesController.getMovies);
 router.get('/details/:movieId', moviesController.getMovieDetails);
 
 // Get watchlist
-router.get('/watchlist', isAuth,
-    moviesController.getWatchlist);
+router.get('/watchlist', isAuth, moviesController.getWatchlist);
+
+// Add to watchlist
+router.post('/watchlist/:movieId', isAuth, moviesController.addToWatchlist);
+
+// Remove from watchlist
+router.delete('/watchlist/:movieId', isAuth, moviesController.removeFromWatchlist);
+
+// Clear watchlist
+router.delete('/watchlist', isAuth, moviesController.clearWatchlist);
 
 // Get suggested movies
 router.get('/suggestions', isAuth, //uncomment this once tokens are implemented
