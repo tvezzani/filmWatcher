@@ -32,7 +32,7 @@ exports.signup = (req,res,next) =>{
         return user.save();
       })
       .then(result => {
-          res.status(201).json({message: 'User Created'});
+          return res.status(201).json({message: 'User Created'});
       })
       .catch((err) => {
         res.status(500).json({
@@ -73,7 +73,7 @@ exports.login = (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' }
     );
-    res.status(200).json({ token: token });
+    return res.status(200).json({ token: token });
   })
   .catch(err => {
     next(err);
