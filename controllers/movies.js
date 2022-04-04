@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
 const User = require('../models/user')
 const router = require('../routes/auth');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 
 
 /*************************************************
@@ -80,7 +80,7 @@ exports.getWatchlist = (req, res, next) => {
 exports.getSuggestions = (req, res, next) => {
     // const userId = '62427aaac8a83109e0fe44bf'
 
-        //add validation if it is admin
+    //add validation if it is admin
     User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user) {
@@ -119,7 +119,6 @@ exports.approveMovie = (req, res, next) => {
     // }
 
     const movieId = req.params.movieId;
-    const userId = '6232d0a61f48263258a321e5'
 
     //add validation if it is admin
     User.findById(userId) //this is going to be req.userId
@@ -156,9 +155,8 @@ exports.approveMovie = (req, res, next) => {
 exports.denyMovie = (req, res, next) => {
     const movieId = req.params.movieId;
 
-    const userId = '6232d0a61f48263258a321e5'
-        //add validation if it is admin
-    User.findById(userId) //this is going to be req.userId
+    //add validation if it is admin
+    User.findById(req.userId) //this is going to be req.userId
         .then(user => {
             if (!user.isAdmin) {
                 const error = new Error('Not Authenticated as Admin');
@@ -195,13 +193,12 @@ exports.denyMovie = (req, res, next) => {
  *************************************************/
 exports.addMovie = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         const error = new Error('Invalid input data!');
         error.statusCode = 422;
         throw error;
     }
-    const userId = '62427aaac8a83109e0fe44bf';
-    User.findById(userId)
+    User.findById(req.userId)
         .then(user => {
             if (!user) {
                 const err = new Error("Didn't find user with given id");
@@ -299,7 +296,7 @@ exports.deleteMovie = (req, res, next) => {
  *************************************************/
 exports.updateMovie = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         const error = new Error('Invalid input data!');
         error.statusCode = 422;
         throw error;
