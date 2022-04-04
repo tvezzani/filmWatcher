@@ -44,6 +44,149 @@ exports.getMovieDetails = (req, res, next) => {
 };
 
 /*************************************************
+ * GET MOVIE FAVORITES
+ *************************************************/
+exports.getFavorites = (req, res, next) => {
+    // const userId = '62427aaac8a83109e0fe44bf'
+    User.findById(req.userId)
+        .then((user) => {
+            if (!user) {
+                const error = new Error('Did not find user');
+                error.statusCode = 404;
+                throw error;
+            } else if (user.favorites.length == 0) {
+                const error = new Error('You do not have any movies in your Favorites');
+                error.statusCode = 404;
+                throw error;
+            } else {
+                let movieArr = [];
+                //console.log(user.favorites[0]);
+                Movie.find({ _id: { $in: user.favorites } })
+                    .then((movies) => {
+                        res.status(200)
+                            .json({ message: "Favorites list retrieved", movies: movies });
+                    })
+            }
+        })
+        .catch((err) => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
+ * ADD MOVIE TO FAVORITES
+ *************************************************/
+ exports.addToFavorites = (req, res, next) => {
+    // const userId = '62427aaac8a83109e0fe44bf'
+    const errors = validationResult(req);
+    const movieId = req.params.movieId;
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+
+            //Includes a duplicate id
+            if (user.favorites.includes(movieId))
+            {
+                const err = new Error("This movie is already included in your favorites");
+                err.statusCode = 409;
+                throw err;
+            }
+
+            user.favorites.push(movieId);
+            user.save()
+            //add id to favorites
+            .then((user) => {
+                res.status(200)
+                    .json({ message: `Updated favorites list with ${movieId}`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
+ * REMOVE FROM FAVORITES
+ *************************************************/
+ exports.removeFromFavorites = (req, res, next) => {
+    const errors = validationResult(req);
+    const movieId = req.params.movieId;
+    if(!errors.isEmpty()){
+        const error = new Error('Invalid input data!');
+        error.statusCode = 422;
+        throw error;
+    }
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+
+            //Includes a duplicate id
+            if (!user.favorites.includes(movieId))
+            {
+                const err = new Error("This movie is not in your favorites");
+                err.statusCode = 409;
+                throw err;
+            }
+
+            const pos = user.favorites.findIndex(id => id.toString() === movieId);
+            user.favorites.splice(pos, 1);
+            user.save()
+            //add id to favorites
+            .then((user) => {
+                // console.log(user); 
+                res.status(200)
+                    .json({ message: `Removed ${movieId} from favorites`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+/*************************************************
+ * CLEAR FAVORITES
+ *************************************************/
+ exports.clearFavorites = (req, res, next) => {
+    User.findById(req.userId)
+        .then(user => {
+            if (!user) {
+                const err = new Error("Didn't find user with given id");
+                err.statusCode = 401;
+                throw err;
+            }
+            user.favorites = [];
+            user.save()
+            //add id to favorites
+            .then((user) => {
+                res.status(200)
+                    .json({ message: `Cleared favorites list`});
+            })
+        })
+        //error checking
+        .catch(err => {
+            err.statusCode = err.statusCode ? err.statusCode : 500;
+            next(err);
+        });
+};
+
+/*************************************************
  * GET WATCH LIST
  *************************************************/
 exports.getWatchlist = (req, res, next) => {

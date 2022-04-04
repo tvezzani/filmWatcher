@@ -24,6 +24,18 @@ router.delete('/watchlist/:movieId', isAuth, moviesController.removeFromWatchlis
 // Clear watchlist
 router.delete('/watchlist', isAuth, moviesController.clearWatchlist);
 
+// Get FAVORITES
+router.get('/favorites', isAuth, moviesController.getFavorites);
+
+// Add to FAVORITES
+router.post('/favorites/:movieId', isAuth, moviesController.addToFavorites);
+
+// Remove from FAVORITES
+router.delete('/favorites/:movieId', isAuth, moviesController.removeFromFavorites);
+
+// Clear FAVORITES
+router.delete('/favorites', isAuth, moviesController.clearFavorites);
+
 // Get suggested movies
 router.get('/suggestions', isAuth, //uncomment this once tokens are implemented
     moviesController.getSuggestions);

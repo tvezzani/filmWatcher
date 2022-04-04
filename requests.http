@@ -3,7 +3,7 @@
 @host = {{hostname}}:{{port}}
 @contentType = application/json
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IiIsInVzZXJJZCI6IiIsImlhdCI6MTY0OTA5MzEzMSwiZXhwIjoxNjQ5MDkzMTMxfQ.bU5TaWKKWs07i3TPw-7nEyu0J36EMJmiRZV6sqY0D6c
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGVvLmRvZGFAb3V0bG9vay5jb20iLCJ1c2VySWQiOiI2MjQyN2FhYWM4YTgzMTA5ZTBmZTQ0YmYiLCJpYXQiOjE2NDkwOTQxMjgsImV4cCI6MTY0OTA5NzcyOH0.K1VHj03yLid9lTHBXSEb7RiPFbWWHlnGlIvy4Kt-ilM
 
 ###
 get http://{{host}}/
@@ -47,6 +47,26 @@ Authorization: Bearer {{token}}
 ###
 # DELETE from Watchlist
 delete http://{{host}}/movies/watchlist/623cbe8b622e693a014e06d1
+Authorization: Bearer {{token}}
+
+###
+# GET Favorites
+get http://{{host}}/movies/favorites
+Authorization: Bearer {{token}}
+
+###
+# Add To Favorites
+post http://{{host}}/movies/favorites/623cbe8b622e693a014e06d2
+Authorization: Bearer {{token}}
+
+###
+# DELETE from Favorites
+delete http://{{host}}/movies/favorites/623cbe8b622e693a014e06d2
+Authorization: Bearer {{token}}
+
+###
+# CLEAR  Favorites
+delete http://{{host}}/movies/favorites
 Authorization: Bearer {{token}}
 
 ###
